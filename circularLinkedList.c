@@ -4,6 +4,30 @@ struct Node{
     int data;
     struct Node *next;
 };
+void insertbefore(struct Node *prev, int val);
+void delete(struct Node **head, struct Node **tail, int position);
+struct Node *find(struct Node *head, int val);
+void insertion(struct Node **head, struct Node **tail, int val);
+void printList(struct Node *head);
+int main(){
+    struct Node *head = NULL;
+    struct Node *tail = NULL;
+    int n;
+    printf("\nEnter number of elements: ");;
+    scanf(" %d", &n);
+    int val;
+    while(n--){
+        printf("\nEnter value to be inserted: ");
+        scanf(" %d", &val);
+        insertion(&head, &tail, val);
+        printList(head);
+    }
+    insertbefore(find(head, 4), 5);
+    printList(head);
+    delete(&head, &tail, 1);
+    printList(head);
+    return 0;
+}
 void insertbefore(struct Node *prev, int val){
     struct Node *temp = (struct Node *)malloc(sizeof(struct Node));
     temp->data = val;
@@ -65,23 +89,4 @@ void printList(struct Node *head){
        printf("%d->", temp->data);
        temp = temp->next;
     }while(temp != head);
-}
-int main(){
-    struct Node *head = NULL;
-    struct Node *tail = NULL;
-    int n;
-    printf("\nEnter number of elements: ");;
-    scanf(" %d", &n);
-    int val;
-    while(n--){
-        printf("\nEnter value to be inserted: ");
-        scanf(" %d", &val);
-        insertion(&head, &tail, val);
-        printList(head);
-    }
-    insertbefore(find(head, 4), 5);
-    printList(head);
-    delete(&head, &tail, 1);
-    printList(head);
-    return 0;
 }
