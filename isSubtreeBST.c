@@ -69,7 +69,7 @@ int isEqual(struct Node *root, struct Node *check){
         return 0;
     }
     if(root->data == check->data){
-        return isEqual(root->left, check->left) || isEqual(root->right, check->right);
+        return isEqual(root->left, check->left) && isEqual(root->right, check->right);
     }
     return 0;
 }
