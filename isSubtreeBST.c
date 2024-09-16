@@ -13,7 +13,7 @@ int main(){
     int preorder[] = {1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1};
     int size = sizeof(preorder)/sizeof(preorder[0]);
     struct Node *root = createTree(preorder, size);
-    int subarr[] = {1, 2, 4, -1, -1, -1, -1};
+    int subarr[] = {2, 4, -1, -1, 5, -1, -1};
     struct Node *subroot = createTree(subarr, 7);
     if(isSubtree(root, subroot)){
         printf("\nYEs");
@@ -35,7 +35,7 @@ int isSubtree(struct Node *root,  struct Node *subroot){
             return 1;
         }
     }
-    return isEqual(root->left, subroot) || isEqual(root->right, subroot);
+    return (isSubtree(root->left, subroot) || isSubtree(root->right, subroot));
 }
 struct Node *createTreeHelper(int *input, int *index, int size){
     if(*index >= size || input[*index] == -1){
@@ -69,7 +69,7 @@ int isEqual(struct Node *root, struct Node *check){
         return 0;
     }
     if(root->data == check->data){
-        return isEqual(root->left, check->left) && isEqual(root->right, check->right);
+        return (isEqual(root->left, check->left) && isEqual(root->right, check->right));
     }
     return 0;
 }
