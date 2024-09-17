@@ -16,7 +16,7 @@ int main(){
     int subarr[] = {2, 4, -1, -1, 5, -1, -1};
     struct Node *subroot = createTree(subarr, 7);
     if(isSubtree(root, subroot)){
-        printf("\nYEs");
+        printf("\nYes");
     }
     else{
         printf("\nNO");
