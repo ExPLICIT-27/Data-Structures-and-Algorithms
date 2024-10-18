@@ -15,14 +15,14 @@ int main(){
     printf("Height of Tree: %d", HeightNodes(root));
     return 0;
 }
+int max(int a, int b){
+    return (a > b)? a:b;
+}
 int HeightNodes(struct Node *root){
     if(root == NULL){
         return 0;
     }
-    int left = HeightNodes(root->left);
-    int right = HeightNodes(root->right);
-    int max = (left > right)? left : right;
-    return (1 + max);
+    return 1 + max(HeightNodes(root->left), HeightNodes(root->right));
 }
 struct Node *createTreeHelper(int *input, int *index, int size){
     if(*index >= size || input[*index] == -1){
