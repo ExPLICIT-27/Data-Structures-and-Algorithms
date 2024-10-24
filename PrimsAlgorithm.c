@@ -24,9 +24,9 @@ int main(){
     return 0;
 }
 int minEdge(int *keys, int *mstSet, int vertices){
-    int min = INT_MIN, min_index;
+    int min = INT_MAX, min_index;
     for(int i = 0; i < vertices; i++){
-        if(!mstSet[i] && keys[i] > min){
+        if(!mstSet[i] && keys[i] < min){
             min = keys[i], min_index = i;
         }
     }
@@ -38,7 +38,7 @@ void PrimMST(int **graph, int vertices){
     int keys[vertices];
 
     for(int i = 0; i < vertices; i++){
-        mstSet[i] = 0, keys[i] = INT_MIN;
+        mstSet[i] = 0, keys[i] = INT_MAX;
     }
     parents[0] = -1;
     keys[0] = 0;
@@ -47,7 +47,7 @@ void PrimMST(int **graph, int vertices){
 
         mstSet[u] = 1;
         for(int j = 0; j < vertices; j++){
-            if(graph[u][j] && !mstSet[j] && graph[u][j] > keys[j]){
+            if(graph[u][j] && !mstSet[j] && graph[u][j] < keys[j]){
                 parents[j] = u;
                 keys[j] = graph[u][j];
             }
