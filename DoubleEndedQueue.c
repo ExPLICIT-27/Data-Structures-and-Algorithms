@@ -87,6 +87,7 @@ void display(){
             printf("%d ", queue[i]);
             i = (i+1)%max;
         }
+        printf("%d ", queue[rear]);
     }
     else{
         printf("\nQueue is empty.");
