@@ -44,6 +44,7 @@ void Display(){
             printf("%d ",queue[i]);
             i = (i+1)%max;
         }
+        printf("%d ", queue[i]);
     }
     else{
         printf("\nEmpty queue.");
