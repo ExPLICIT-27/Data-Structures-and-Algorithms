@@ -29,16 +29,16 @@ int main(){
                 stack[++top] = op1 + op2;
             }
             else if(operator == '-'){
-                stack[++top] = op2 - op1;
+                stack[++top] = op1 - op2;
             }
             else if(operator == '/'){
-                stack[++top] = op2/op1;
+                stack[++top] = op1/op2;
             }
             else if(operator == '*'){
                 stack[++top] = op2*op1;
             }
             else{
-                stack[++top] = (int)pow(op2, op1);
+                stack[++top] = (int)pow(op1, op2);
             }
         }
     }
