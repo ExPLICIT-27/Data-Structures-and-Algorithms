@@ -49,5 +49,4 @@ int binarySearch(int *arr, int n, int k){
         return mid;
     }
     return mid+1;
-    // return mid;
 }
