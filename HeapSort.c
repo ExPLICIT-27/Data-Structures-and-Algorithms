@@ -43,8 +43,6 @@ void print(int *arr, int size){
 int main(){
     int arr[] = {10, 20, 15, 30, 40};
     MaxHeapify(arr, 5);
-    print(arr, 5);
-    printf("\n");
     HeapSort(arr, 5);
     print(arr, 5);
     return 0;
