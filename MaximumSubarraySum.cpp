@@ -25,7 +25,7 @@ Result MaxCrossSum(vector <int> &arr, int low, int mid, int high){
     int leftsum = INT_MIN, rightsum = INT_MIN;
     int leftidx = mid, rightidx = mid+1;
     int sum = 0;
-    for(int i = mid; i >= 0; i--){
+    for(int i = mid; i >= low; i--){
         sum += arr[i];
         if(sum > leftsum){
             leftsum = sum, leftidx = i;
