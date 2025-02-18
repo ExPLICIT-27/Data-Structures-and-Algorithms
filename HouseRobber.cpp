@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-/*
+/*              QUESTION DESCRIPTION
     There are n houses built in a line, each of which contains some money.
     A robber wants to steal money from these houses, but he cant steal
     from adjacent houses, find the maximum amount of money that can be stolen

@@ -62,6 +62,10 @@ int DynamicTabulation(vector<vector<int>> &cost, int m, int n){
     }
     return dp[m-1][n-1];
 }
+/*
+    Space Optimized approach - I'm having difficulty understanding what's going on, 
+    will add it if i fully grasp it.
+*/
 int main(){
     vector<vector<int>> cost = { { 1, 2, 3 },
                                  { 4, 8, 2 },
