@@ -56,8 +56,8 @@ void TabulatedDP(vector<int> &arr){
     int lastidx = -1, maxLen = 0;
     for(int i = 1; i < n; i++){
         for(int j = 0; j < i; j++){
-            if(arr[j] < arr[i]){
-                dp[i] = max(dp[i], 1 + dp[j]);
+            if(arr[j] < arr[i] && dp[i] < 1 + dp[j]){
+                dp[i] = 1 + dp[j];
                 parents[i] = j;
             }
         }
