@@ -15,7 +15,6 @@ using namespace std;
  go from j = 0 to idx-1, if arr[j] < arr[idx] , set
  mx = max(mx, naive(arr, j) + 1)
 */
-
 int NaiveBruteForce(vector<int> &arr, int idx){
     if(idx == 0) return 1;
 
@@ -47,6 +46,26 @@ int Memoized(vector<int> &arr, int idx, vector<int> &memo){
  return the largest element in the dp array,
  printing the LIS as well
 */
+int LISNaive(vector<int> &arr){
+    int n = arr.size();
+    int res = 1;
+
+    vector<int> memo(n, -1);
+    for(int i = 1; i < n; i++){
+        res = max(res, NaiveBruteForce(arr, i));
+    }
+    return res;
+}
+int LISMemo(vector<int> &arr){
+    int n = arr.size();
+    int res = 1;
+
+    vector<int> memo(n, -1);
+    for(int i = 1; i < n; i++){
+        res = max(res, Memoized(arr, i, memo));
+    }
+    return res;
+}
 void TabulatedDP(vector<int> &arr){
     int n = arr.size();
 
@@ -80,9 +99,8 @@ void TabulatedDP(vector<int> &arr){
 }
 int main(){
     vector<int> arr{10, 22, 9, 33, 21, 50, 41, 60};
-    cout << NaiveBruteForce(arr, arr.size() - 1) << endl;
-    vector<int> memo(arr.size(), -1);
-    cout << Memoized(arr, arr.size() - 1, memo) << endl;
+    cout << LISNaive(arr) << endl;
+    cout << LISMemo(arr) << endl;
     TabulatedDP(arr);
     return 0;
 }
