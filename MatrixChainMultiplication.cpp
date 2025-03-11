@@ -1,6 +1,6 @@
 /*
 Given a set of matrix dimensions (eg {10, 20, 30, 40, 50})
-Use the brute force approach and generate all possible parenthesizationsa and compute the 
+Use the brute force approach and generate all possible parenthesizationsa and compute the
 cost of multiplication for each parenthesization
 */
 #include <iostream>
@@ -10,26 +10,32 @@ cost of multiplication for each parenthesization
 
 using namespace std;
 
-struct ParaRes{
+struct ParaRes
+{
     string para;
     int cost;
 };
 
-vector<ParaRes> mcmBruteForce(int i, int j, vector<int> &dims, vector<string> &matNames){
+vector<ParaRes> mcmBruteForce(int i, int j, vector<int> &dims, vector<string> &matNames)
+{
     vector<ParaRes> result;
 
-    if(i == j){
-        result.push_back({matNames[i-1], 0});
+    if (i == j)
+    {
+        result.push_back({matNames[i - 1], 0});
         return result;
     }
 
-    for(int k = i; k < j; k++){
+    for (int k = i; k < j; k++)
+    {
         vector<ParaRes> leftRes = mcmBruteForce(i, k, dims, matNames);
         vector<ParaRes> rightRes = mcmBruteForce(k + 1, j, dims, matNames);
 
-        for(const auto &left : leftRes){
-            for(const auto &right : rightRes){
-                int cost = left.cost + right.cost + dims[i-1]*dims[k]*dims[j];
+        for (const auto &left : leftRes)
+        {
+            for (const auto &right : rightRes)
+            {
+                int cost = left.cost + right.cost + dims[i - 1] * dims[k] * dims[j];
                 string para = "(" + left.para + "*" + right.para + ")";
                 result.push_back({para, cost});
             }
@@ -37,30 +43,58 @@ vector<ParaRes> mcmBruteForce(int i, int j, vector<int> &dims, vector<string> &m
     }
     return result;
 }
+// Memoized Approach
+int mcmMemoized(int i, int j, vector<int> &dims, vector<vector<int>> &memo, vector<vector<int>> &s)
+{
+    if (i == j)
+        return 0;
 
+    if (memo[i][j] != -1)
+        return memo[i][j];
+
+    int mincost = INT_MAX;
+    for (int k = i; k < j; k++)
+    {
+        int leftcost = mcmMemoized(i, k, dims, memo, s);
+        int rightcost = mcmMemoized(k + 1, j, dims, memo, s);
+
+        int cost = leftcost + rightcost + dims[i - 1] * dims[k] * dims[j];
+        if (cost < mincost)
+        {
+            mincost = cost, s[i][j] = k;
+        }
+    }
+    return memo[i][j] = mincost;
+}
 // Bottom up Dynamic Programming approach
-string constructPara(vector<string> &mat, int i, int j, vector<vector<int>> &s){
-    if(i == j){
-        return mat[i-1];
+string constructPara(vector<string> &mat, int i, int j, vector<vector<int>> &s)
+{
+    if (i == j)
+    {
+        return mat[i - 1];
     }
     return "(" + constructPara(mat, i, s[i][j], s) + "*" + constructPara(mat, s[i][j] + 1, j, s) + ")";
 }
-pair<int, string> mcmTabulated(vector<int> &dims, vector<string> &mat){
+pair<int, string> mcmTabulated(vector<int> &dims, vector<string> &mat)
+{
     int n = mat.size();
 
     vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
     vector<vector<int>> s(n + 1, vector<int>(n + 1, 0));
 
-    for(int l = 2; l <= n; l++){
-        for(int i = 0; i <= n - l + 1; i++){
+    for (int l = 2; l <= n; l++)
+    {
+        for (int i = 1; i <= n - l + 1; i++)
+        {
             int j = i + l - 1;
             dp[i][j] = INT_MAX;
 
-            for(int k = i; k < j; k++){
-                int cost = dp[i][k] + dp[k + 1][j] + dims[i-1]*dims[k]*dims[j];
-                if(cost < dp[i][j]){
-                    dp[i][j] = cost;
-                    s[i][j] = k;
+            for (int k = i; k < j; k++)
+            {
+                int cost = dp[i][k] + dp[k + 1][j] + dims[i - 1] * dims[k] * dims[j];
+                if (cost < dp[i][j])
+                {
+                    dp[i][j] = cost, s[i][j] = k;
                 }
             }
         }
@@ -69,29 +103,36 @@ pair<int, string> mcmTabulated(vector<int> &dims, vector<string> &mat){
     return {dp[1][n], optpara};
 }
 
-int main(){
+int main()
+{
     int n;
     cout << "Enter the number of dimensions: ";
     cin >> n;
     cout << endl;
 
     vector<int> dimensions(n);
-    for(int i = 0; i < n; i++){
+    for (int i = 0; i < n; i++)
+    {
         cin >> dimensions[i];
     }
 
-    vector<string> matNames(n-1); // of the order A1, A2, A3 etc
-    for(int i = 0; i < n-1; i++){
+    vector<string> matNames(n - 1); // of the order A1, A2, A3 etc
+    for (int i = 0; i < n - 1; i++)
+    {
         matNames[i] = "A" + to_string(i + 1);
     }
 
-    vector<ParaRes> result = mcmBruteForce(1, n-1, dimensions, matNames);
+    vector<ParaRes> result = mcmBruteForce(1, n - 1, dimensions, matNames);
 
     cout << "Number of possible paranthesizations : " << result.size() << endl;
-    for(const auto &res : result){
+    for (const auto &res : result)
+    {
         cout << res.para << " -> " << res.cost << endl;
     }
 
+    vector<vector<int>> memo(n, vector<int>(n, -1));
+    vector<vector<int>> s(n, vector<int>(n, 0));
+    cout << "MCM Memoized : " << mcmMemoized(1, n - 1, dimensions, memo, s) << " -> " << constructPara(matNames, 1, n - 1, s) << endl;
     auto [optcost, optpara] = mcmTabulated(dimensions, matNames);
     cout << "Optimal cost using bottom up : " << optcost << endl;
     cout << "Optimal paranthesization : " << optpara << endl;
