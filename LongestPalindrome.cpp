@@ -47,6 +47,7 @@ string Memoized(int left, int right, string &str, map<string, string> &memo)
     memo[key] = (front.length() > back.length()) ? front : back;
     return memo[key];
 }
+
 int main()
 {
     string str = "abcdfba";
