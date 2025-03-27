@@ -67,7 +67,7 @@ int Tabulated(vector<int> &jumps)
     }
     return (dp[0] == INT_MAX) ? -1 : dp[0];
 }
-// greedy, ill update
+// greedy solution - part of the greedy questions folder
 int main()
 {
     vector<int> jumps{1, 4, 3, 2, 6, 7};
