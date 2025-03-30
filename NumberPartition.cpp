@@ -42,7 +42,7 @@ vector<int> Numberpartition(int n)
 int main()
 {
     int n = 6;
-    vector<int> result = Numberpartition(8);
+    vector<int> result = Numberpartition(n);
     for (int num : result)
         cout << num << " ";
     return 0;
