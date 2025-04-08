@@ -15,7 +15,7 @@ int MinHallsRequired(vector<Activity> &activities)
 {
     int n = activities.size();
     sort(activities.begin(), activities.end(), [](const Activity &a, const Activity &b)
-         { return a.finish < b.finish; });
+         { return a.start < b.start; });
     priority_queue<int, vector<int>, greater<int>> minHeap;
     for (const auto &activity : activities)
     {
