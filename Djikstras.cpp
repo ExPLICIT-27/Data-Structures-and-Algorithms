@@ -1,4 +1,4 @@
-// OOPS Approach to Djikstras shortes path algorithm
+// OOPS Approach to Djikstras shortest path algorithm
 #include <bits/stdc++.h>
 #include <climits>
 
