@@ -5,6 +5,7 @@ Jarvis March algorithm logic:
 starting from the leftmost point (some algorithms start from the bottommost)
 find the point with the largest amount of anticlockwise turn and add it to the set
 of convex hull points.
+TC -> O(m*n) (m -> hull points, n -> total points)
 */
 #include <bits/stdc++.h>
 
