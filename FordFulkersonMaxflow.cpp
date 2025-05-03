@@ -17,11 +17,13 @@ public:
         adjMatrix.resize(V);
         capacity.resize(V, vector<int>(V, 0));
     }
+    // updating the adjacency matrix as well the capacity matrix
     void addEdge(int u, int v, int f)
     {
         capacity[u][v] += f;
         adjMatrix[u].push_back(v), adjMatrix[v].push_back(u);
     }
+    // finding augmenting paths (note : no updates to the capacity, all im doing is finding an exisiting path from source to sink)
     int dfs(int u, int t, vector<bool> &visited, vector<int> &parent)
     {
         visited[u] = true;
@@ -38,6 +40,8 @@ public:
         }
         return false;
     }
+    // main part of the code, i keep finding augmenting paths and update the
+    // the capacities till i cant find any more augmenting paths
     int fordFulkerson(int s, int t)
     {
         int maxFlow = 0;
