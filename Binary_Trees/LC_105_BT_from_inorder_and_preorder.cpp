@@ -11,17 +11,10 @@ and further from there to the end is the right subtree
 hash the inorder values, use them to find bounds on the indexes 
 */
 #include <bits/stdc++.h>
-
+#include "TreeNode.h"
 using namespace std;
 
-struct TreeNode{
-    int val;
-    TreeNode *left, *right;
-    TreeNode(int val){
-        this->val = val;
-        left = right = NULL;
-    }
-};
+
 TreeNode *helper(vector<int> &pre, int preSt, int preEn, vector<int> &inorder, int inSt, int inEn, unordered_map<int, int> &inMap){
         if(preSt > preEn || inSt > inEn)
             return NULL;

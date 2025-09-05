@@ -9,16 +9,9 @@ column
 just remove the condition for checking map from topview, you have bottom view
 */
 #include <bits/stdc++.h>
-
+#include "TreeNode.h"
 using namespace std;
-struct TreeNode{
-    int val;
-    TreeNode *left, *right;
-    TreeNode(int val){
-        this->val = val;
-        left = right = NULL;
-    }
-};
+
 vector<int> bottomTreeView(TreeNode *root){
     if(!root)
         return;

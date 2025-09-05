@@ -8,16 +8,10 @@ using the same concept as vertical traversal, except we store only one node per
 column
 */
 #include <bits/stdc++.h>
+#include "TreeNode.h"
 
 using namespace std;
-struct TreeNode{
-    int val;
-    TreeNode *left, *right;
-    TreeNode(int val){
-        this->val = val;
-        left = right = NULL;
-    }
-};
+
 vector<int> TopTreeView(TreeNode *root){
     if(!root)
         return {};
