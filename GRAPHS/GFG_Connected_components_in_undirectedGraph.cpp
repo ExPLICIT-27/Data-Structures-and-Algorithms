@@ -30,7 +30,7 @@ vector<vector<int>> findConnected(vector<vector<int>> &edges, int V){
             result.push_back(temp);
         }
     }
-    return result;
+    return result; 
 }
 int main(){
     return 0;
