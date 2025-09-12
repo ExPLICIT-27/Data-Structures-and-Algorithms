@@ -28,11 +28,11 @@ string findOrder(vector<string> &words){
 
     // construct the directed graph and apply Kahn's algorithm
 
-    int V = words.size();
+    int V = node;
     vector<vector<int>> G(V);
     vector<int> indegree(V, 0);
 
-    for(int i = 1; i < V; i++){
+    for(int i = 1; i < words.size(); i++){
         int j = 0;
         int size = min(words[i].length(), words[i - 1].length());
 
