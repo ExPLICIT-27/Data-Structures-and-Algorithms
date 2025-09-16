@@ -1,3 +1,9 @@
+/*
+Dijkstra's cannot handle negative edge weights, hence we have bellman ford
+Bellman ford does not work for negative weight cycles reachable from the source ( in other words, it can be used to detect 
+negative edge weights)
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -13,7 +19,7 @@ void BellmanFord(int V, vector<Edge> &edges, int src)
 
     dist[src] = 0;
 
-    for (int i = 1; i < V; i++)
+    for (int i = 0; i < V - 1; i++)
     {
         for (auto edge : edges)
         {
@@ -28,7 +34,7 @@ void BellmanFord(int V, vector<Edge> &edges, int src)
     {
         if (dist[edge.u] != INT_MAX && dist[edge.u] + edge.weight < dist[edge.v])
         {
-            cout << "Negative edge weight present!";
+            cout << "Negative weight cycle present!";
             return;
         }
     }
