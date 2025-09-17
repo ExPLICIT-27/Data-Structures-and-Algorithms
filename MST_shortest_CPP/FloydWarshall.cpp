@@ -1,3 +1,9 @@
+/*
+unlike dijstra's and bellman ford, Floyd Warshall is a multi source shortest path algorithms
+i.e it can find the shortest distance betweem any 2 pair of nodes
+*/
+
+
 #include <bits/stdc++.h>
 
 using namespace std;
