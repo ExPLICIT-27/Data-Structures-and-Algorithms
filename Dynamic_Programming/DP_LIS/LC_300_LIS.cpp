@@ -117,6 +117,23 @@ void TabulatedDP(vector<int> &arr)
         cout << el << " ";
     }
 }
+// optimal solution O(nLog(n))
+int optimal(vector<int>& nums) {
+    vector<int> dp;
+    dp.push_back(nums[0]);
+    int res = 1;
+    for(int i = 1; i < nums.size(); i++){
+        if(nums[i] > dp.back()){
+            dp.push_back(nums[i]);
+            res++;
+        }
+        else{
+            auto lb = lower_bound(dp.begin(), dp.end(), nums[i]);
+            dp[lb - dp.begin()] = nums[i];
+        }
+    }
+    return res;
+}
 int main()
 {
     vector<int> arr{10, 22, 9, 33, 21, 50, 41, 60};
