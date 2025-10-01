@@ -40,38 +40,15 @@ int main() {
     int T; 
     cin >> T;
     while (T--) {
-        int n, k, x;
-        cin >> n >> k >> x;
-        if(x != 1){
-            cout << "YES" << endl;
-            cout << n << endl;
-            for(int i = 0; i < n; i++)
-                cout << 1 << " ";
-            cout << endl;
+        int n;
+        cin >> n;
+        for(int i = 0; i < n; i++){
+            int tmp;
+            cin >> tmp;
+            cout << n - tmp + 1 << " ";
         }
-        else{
-            if(((n%2) && (k <= 2)) || (n == 1) || (k == 1)){
-                cout << "NO" << endl;
-            }
-            else if(n%2 && k > 2){
-                int cnt = (n - 2)/2 + 1;
-                cout << "YES" << endl << cnt << endl;
-                while(n > 3){
-                    cout << 2 << " ";
-                    n -= 2;
-                }
-                cout << 3 << endl;
-            }
-            else{
-                cout << "YES" << endl;
-                cout << n/2 << endl;
-                while(n){
-                    cout << 2 << " ";
-                    n -= 2;
-                }
-                cout << endl;
-            }
-        }
+        
+        cout << endl;
     }
 
     return 0;
