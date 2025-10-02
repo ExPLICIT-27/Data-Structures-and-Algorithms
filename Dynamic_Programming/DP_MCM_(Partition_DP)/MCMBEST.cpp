@@ -43,7 +43,7 @@ int naive(vector<int> &dimensions, int i, int j){
     return mincost;
 }
 
-// memoized
+// memoized -> O(N^3) states
 int memoized(vector<int> &dims, int i, int j, vector<vector<int>> &dp){
     if(i == j)
         return 0;
@@ -55,6 +55,33 @@ int memoized(vector<int> &dims, int i, int j, vector<vector<int>> &dp){
         mincost = min(mincost, steps);
     }
     return dp[i][j] = mincost;
+}
+
+// tabulated
+int tabulated(vector<int> &dims){
+    int n = dims.size();
+    vector<vector<int>> dp(n, vector<int>(n, 0));
+
+
+    // in the memoized code, the i started from 1 and went ahead, and j started from n - 1 and went down
+    // so in the bottom up code we will start i from n - 1 and go till 0
+    // but for j, we cant start it from 0, as in the recurrence j is always > i, if it is equal then the ans is 0 and
+    // j < i cases do not exist, hence we must start j from i + 1 and go till n
+    // in conclusion : i from n - 1 to 1, j from i + 1 to n
+    // then just copy the recurrence
+    for(int i = n - 1; i >= 1; i--){
+        for(int j = i + 1; j < n; j++){
+            // just copy paste the recurrence
+            int mincost = INT_MAX;
+            for(int k = i; k < j; k++){
+                int currcost = dims[i - 1]*dims[k]*dims[j] + dp[i][k] + dp[k + 1][j];
+                mincost = min(mincost, currcost);
+            }
+            dp[i][j] = mincost;
+        }
+    }
+    // recrurrence started from i = 1, and j = n - 1, hence result will also be stored in dp[1][n - 1];
+    return dp[1][n - 1];
 }
 int main(){
     return 0;
