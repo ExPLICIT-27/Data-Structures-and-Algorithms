@@ -37,27 +37,30 @@ using namespace std;
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
 
-int main() {
-    fastio;
-
-    int T; 
+int main(){
+    int T;
     cin >> T;
-    while (T--) {
-        int n;
-        cin >> n;
-        vi a(n);
-        int ops = 0;
-        rep(i, 0, n){
-            cin >> a[i];
-        }
-        int parity = a[0]%2;
-        rep(i, 1, n){
-            if(a[i]%2 == parity)
-                ops++;
+    while(T--){
+        int n, k;
+        cin >> n >> k;
+        string str;
+        cin >> str;
+        vi freq(26, 0);
+        for(char c : str)
+            freq[c - 'a']++;//t - 4, r - 4, a - 2, k - 2, o - 2
+        int oddc = 0;
+        int evenc = 0;
+        for(int i : freq){
+            if(i%2)
+                oddc++;
             else
-                parity = a[i]%2;
+                evenc += i;
         }
-        cout << ops << endl;
+        if(oddc - 1 > k)
+            cout << "NO" << endl;
+        else{
+            cout << "YES" << endl;
+        }
     }
     return 0;
 }

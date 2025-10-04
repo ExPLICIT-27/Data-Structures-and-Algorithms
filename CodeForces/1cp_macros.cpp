@@ -37,27 +37,6 @@ using namespace std;
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
 
-int main() {
-    fastio;
-
-    int T; 
-    cin >> T;
-    while (T--) {
-        int n;
-        cin >> n;
-        vi a(n);
-        int ops = 0;
-        rep(i, 0, n){
-            cin >> a[i];
-        }
-        int parity = a[0]%2;
-        rep(i, 1, n){
-            if(a[i]%2 == parity)
-                ops++;
-            else
-                parity = a[i]%2;
-        }
-        cout << ops << endl;
-    }
+int main(){
     return 0;
 }

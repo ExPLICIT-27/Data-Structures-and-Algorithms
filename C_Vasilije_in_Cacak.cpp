@@ -37,27 +37,19 @@ using namespace std;
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
 
-int main() {
-    fastio;
-
-    int T; 
+int main(){
+    int T;
     cin >> T;
-    while (T--) {
-        int n;
-        cin >> n;
-        vi a(n);
-        int ops = 0;
-        rep(i, 0, n){
-            cin >> a[i];
-        }
-        int parity = a[0]%2;
-        rep(i, 1, n){
-            if(a[i]%2 == parity)
-                ops++;
-            else
-                parity = a[i]%2;
-        }
-        cout << ops << endl;
+    while(T--){
+        ll n, k, x;
+        cin >> n >> k >> x;
+        ll maxsum = n*(n + 1)/2 - (n - k)*(n - k + 1)/2;
+        ll minsum = k*(k + 1)/2;
+        if(minsum > x || maxsum < x)
+            cout << "NO" << endl;
+        else
+            cout << "YES" << endl;
+
     }
     return 0;
 }

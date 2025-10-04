@@ -37,27 +37,41 @@ using namespace std;
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
 
-int main() {
-    fastio;
-
-    int T; 
+int main(){
+    int T;
     cin >> T;
-    while (T--) {
-        int n;
-        cin >> n;
-        vi a(n);
-        int ops = 0;
-        rep(i, 0, n){
-            cin >> a[i];
+    while(T--){
+        int a, b, xk, yk, xq, yq;
+        cin >> a >> b >> xk >> yk >> xq >> yq;
+        set<pii> check;
+        for(int i : {a, -a}){
+            for(int j : {b, -b}){
+                int x = xk + i;
+                int y = yk + j;
+                check.insert({x, y});
+                x = xk + j;
+                y = yk + i;
+                check.insert({x, y});
+            }
         }
-        int parity = a[0]%2;
-        rep(i, 1, n){
-            if(a[i]%2 == parity)
-                ops++;
-            else
-                parity = a[i]%2;
+        int result = 0;
+        for(int i : {a, -a}){
+            for(int j : {b, -b}){
+                int x = xq + i;
+                int y = yq + j;
+                if(check.count({x, y})){
+                    result++;
+                    check.erase({x, y});
+                }
+                x = xq + j;
+                y = yq + i;
+                if(check.count({x, y})){
+                    result++;
+                    check.erase({x, y});
+                }
+            }
         }
-        cout << ops << endl;
+        cout << result << endl;
     }
     return 0;
 }
