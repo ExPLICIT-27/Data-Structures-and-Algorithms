@@ -79,8 +79,48 @@ pair<long long, long long> count(string &exprs,int i, int j, vector<vector<pair<
         }
 
     }
-    
+
     return dp[i][j] = {trues, falses};
+}
+
+// tabulated
+int countWays(string &s) {
+    // code here
+    int n = s.length();
+    vector<vector<pair<long long, long long>>> dp(n, vector<pair<long long, long long>>(n, {0, 0}));
+    // base case
+    for(int i = 0; i < n; i++){
+        if(s[i] == 'T')
+            dp[i][i] = {1, 0};
+        else if(s[i] == 'F')
+            dp[i][i] = {0, 1};
+    }
+    
+    // opposite wrt to the memoization, notice the possible values of i, j, k and then provide increments and decrements
+    for(int i = n - 1; i >= 0; i -= 2){
+        for(int j = i + 2; j < n; j += 2){
+            long long trues = 0, falses = 0;
+            for(int k = i + 1; k < j; k += 2){
+                auto left = dp[i][k - 1];
+                auto right = dp[k + 1][j];
+                if(s[k] == '&'){
+                    trues += left.first*right.first;
+                    falses += (left.first*right.second + left.second*right.first + left.second*right.second);
+                }
+                else if(s[k] == '|'){
+                    trues += (left.first*right.second + left.second*right.first + left.first*right.first);
+                    falses += left.second*right.second;
+                }
+                else{
+                    trues += (left.first*right.second + left.second*right.first);
+                    falses += (left.first*right.first + left.second*right.second);
+                }
+            }
+            dp[i][j] = {trues, falses};
+        }
+    }
+    
+    return dp[0][n - 1].first;
 }
 int main(){
     return 0;
