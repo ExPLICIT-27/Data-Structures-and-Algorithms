@@ -38,7 +38,7 @@ using namespace std;
 // minimum query sparse table
 vector<vector<int>> buildTable(vector<int> &nums){
     int n = nums.size();
-    int LOG = log2(n);
+    int LOG = log2(n) + 1;
 
     vector<vector<int>> sparse(n, vector<int>(LOG));
 

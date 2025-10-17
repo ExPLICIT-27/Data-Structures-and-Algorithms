@@ -38,5 +38,6 @@ const ll MOD = 1e9+7;
 const ll INF = 1e18;
 
 int main(){
+    fastio;
     return 0;
 }
