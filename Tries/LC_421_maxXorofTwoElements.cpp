@@ -38,15 +38,14 @@ int findMaximumXOR(vector<int>& nums) {
         for(int j = 31; j >= 0; j--){
             int bit = !((i >> j) & 1);
             if(node->containsKey(bit)){
-                val += bit*(1 << j);
+                val |= (1 << j);
                 node = node->get(bit);
             }
             else{
-                val += (!bit)*(1 << j);
                 node = node->get(!bit);
             }
         }
-        result = max(result, i^val);
+        result = max(result, val);
     }
     return result;
 }
