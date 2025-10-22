@@ -1,0 +1,1 @@
+- No solutions for ridiculously easy qns

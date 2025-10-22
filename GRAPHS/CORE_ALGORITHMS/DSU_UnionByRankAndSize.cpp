@@ -64,6 +64,7 @@ class DSU{
             int u_p = findParent(u);
             int v_p = findParent(v);
 
+            if(u_p == v_p) return;
             if(size[u_p] > size[v_p]){
                 parent[v_p] = u_p;
                 size[u_p] += size[v_p]; // increasing the size
