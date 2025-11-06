@@ -42,33 +42,28 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        int n;
-        cin >> n;
-        vll a(n);
-        umap<ll, ll> mp;
-        ll max_f = 0;
+        ll num;
+        cin >> num;
+        vi a;
+        while(num){
+            a.pb(num%10);
+            num /= 10;
+        }
+
+        // find the latest 2 digits divisible by 25, so min operations is removing all digits between and after those 2, all the others 
+        // before can be taken
+        reverse(all(a));
+        int n = sz(a);
+        int f = -1, s = -1;
         rep(i, 0, n){
-            cin >> a[i];
-            mp[a[i]]++;
-            max_f = max(max_f, mp[a[i]]);
-        }
-
-        if(max_f == n){
-            cout << 0 << endl;
-        }
-        else{
-            int ops = 0;
-            ll curr_f = max_f;
-            while(curr_f < n){
-                ops++;
-                curr_f += max_f;
-
-                ops += (min(n - max_f, max_f));
-                max_f = curr_f;
-                
+            rep(j, i + 1, n){
+                if((a[i]*10 + a[j])%25 == 0){
+                    f = max(f, i);
+                    s = max(s, j);
+                }
             }
-            cout << ops << endl;
-        } 
+        }
+        cout << s - f - 1 + n - s - 1 << endl;
     }
     return 0;
 }
