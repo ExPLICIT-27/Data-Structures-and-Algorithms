@@ -36,13 +36,19 @@ using namespace std;
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
-
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        
+class Solution {
+public:
+    int minimumDistance(vector<int>& nums) {
+        int ans = INT_MAX;
+        rep(i, 0, sz(nums)){
+            rep(j, i + 1, sz(nums)){
+                rep(k, j + 1, sz(nums)){
+                    if(nums[i] == nums[j] && nums[j] == nums[k]){
+                        ans = min(ans, abs(i - j) + abs(j - k) + abs(i - k));
+                    }
+                }
+            }
+        }
+        return ans == INT_MAX ? -1 : ans;
     }
-    return 0;
-}
+};

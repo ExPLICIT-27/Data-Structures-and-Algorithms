@@ -42,7 +42,31 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        
+        int n;
+        cin >> n;
+        vector<vll> a(n);
+        ll x = INT_MAX, marr = 0;
+        vll res;
+        rep(i, 0, n){
+            int m;
+            cin >> m;
+            vll b(m);
+            rep(j, 0, m){
+                cin >> b[j];
+            }
+            sort(all(b));
+            if(b[0] < x){
+                x = b[0];
+                marr = i;
+            }
+            x = min(x, b[0]);
+            if(b.size() == 1) 
+                res.pb(b[0]);
+            else
+                res.pb(b[1]);
+            a[i] = b;
+        }
+        cout << x + vsum(res) - vmin(res) << endl;
     }
     return 0;
 }

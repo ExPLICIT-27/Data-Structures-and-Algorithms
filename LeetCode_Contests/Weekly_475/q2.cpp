@@ -36,13 +36,22 @@ using namespace std;
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
-
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        
+class Solution {
+public:
+    int minimumDistance(vector<int>& nums) {
+        int ans = INT_MAX;
+        umap<int, vector<int>> mp;
+        int n = sz(nums);
+        rep(i, 0, n){
+            mp[nums[i]].pb(i);
+        }
+        for(auto &p : mp){
+            int t = INT_MAX;
+            for(int i = 2; i < sz(p.ss); i++){
+                t = min(t, abs(p.ss[i] - p.ss[i - 1]) + abs(p.ss[i] - p.ss[i - 2] +abs(p.ss[i - 1] - p.ss[i - 2])));
+            }
+            ans = min(ans, t);
+        }
+        return ans == INT_MAX ? -1 : ans;
     }
-    return 0;
-}
+};
