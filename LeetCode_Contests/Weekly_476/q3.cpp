@@ -36,34 +36,32 @@ using namespace std;
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
-
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        ll n, r, b;
-        cin >> n >> r >> b;
-        string ans = "";
-        ll b_width = r/(b + 1);
-        ll rem = r%(b + 1);
-
-        for(int i = 0; i < b + 1; i++){
-            for(int j = 0; j < b_width; j++){
-                ans += "R";
-            }
-            if(rem > 0){
-                ans += "R";
-                rem--;
-            }
-            if(i != b)
-                ans += "B";                 
+class Solution {
+public:
+    long long countDistinct(long long n) {
+        string s = to_string(n);
+        int L = s.size();
+        ll ans = 0;
+        // first L - 1 digits, => 9, 9*9, etc
+        ll p = 9;
+        rep(i, 1, L){
+            ans += p;
+            p *= 9;
         }
-        while(rem--)
-            ans += "R";
-        
-        cout << ans << endl;
-
+        // handle the last case
+        // iterate and add 9*remaining digits for every time the current digit is < the
+        // digit at this position
+        // if its a zero, break out
+        rep(i, 0, L){
+            int rem = L - i - 1;
+            int d = s[i] - '0';
+            if(!d)
+                return ans;
+            ll p9 = 1;
+            rep(j, 0, rem) p9 *= 9;
+            ans += 1ll*(d - 1)*p9;
+        }
+        // inlcude current number, it doesnt have any zeros
+        return ++ans;
     }
-    return 0;
-}
+};

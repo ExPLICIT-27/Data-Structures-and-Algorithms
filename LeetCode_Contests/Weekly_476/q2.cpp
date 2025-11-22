@@ -36,34 +36,17 @@ using namespace std;
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
-
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        ll n, r, b;
-        cin >> n >> r >> b;
-        string ans = "";
-        ll b_width = r/(b + 1);
-        ll rem = r%(b + 1);
-
-        for(int i = 0; i < b + 1; i++){
-            for(int j = 0; j < b_width; j++){
-                ans += "R";
-            }
-            if(rem > 0){
-                ans += "R";
-                rem--;
-            }
-            if(i != b)
-                ans += "B";                 
+class Solution {
+public:
+    int minLengthAfterRemovals(string s) {
+        int ans = 0;
+        int n = sz(s);
+        rep(i, 0, n){
+            if(s[i] == 'a')
+                ans++;
+            else
+                ans--;
         }
-        while(rem--)
-            ans += "R";
-        
-        cout << ans << endl;
-
+        return abs(ans);
     }
-    return 0;
-}
+};
