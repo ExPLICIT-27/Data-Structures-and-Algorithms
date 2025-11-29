@@ -42,19 +42,29 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        ll n;
-        cin >> n;
-        n--;
-        int bits = log2(n);
-        ll st = static_cast<ll>(pow(2, bits)) - 1;
-        while(st >= 0){
-            cout << st-- << " ";
-        }
-        ll nxt = static_cast<ll>(pow(2, bits));
-        for(ll i = nxt; i <= n; i++)
-            cout << i << " ";
-        cout << endl;
+        ll a, b;
+        cin >> a >> b; // a is positive, b non negative
+
+
+        ll xorval;
+
+        // trick to instantly find the xor from 0 to n in O(1) time
+        if((a - 1)%4 == 0)
+            xorval = a - 1;
+        else if((a - 1)%4 == 1)
+            xorval = 1;
+        else if((a - 1)%4 == 2)
+            xorval = a;
+        else
+            xorval = 0;
         
+        if(xorval == b)
+            cout << a << endl;
+        else if((xorval^b) != a)
+            cout << a + 1 << endl;
+        else
+            cout << a + 2 << endl;
+
 
     }
     return 0;

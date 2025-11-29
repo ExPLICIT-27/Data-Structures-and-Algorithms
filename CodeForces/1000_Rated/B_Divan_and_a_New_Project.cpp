@@ -44,17 +44,28 @@ int main(){
     while(T--){
         ll n;
         cin >> n;
-        n--;
-        int bits = log2(n);
-        ll st = static_cast<ll>(pow(2, bits)) - 1;
-        while(st >= 0){
-            cout << st-- << " ";
+        vector<pll> a(n);
+
+        rep(i, 0, n){
+            ll tmp;
+            cin >> tmp;
+            a[i] = {tmp, i};
         }
-        ll nxt = static_cast<ll>(pow(2, bits));
-        for(ll i = nxt; i <= n; i++)
-            cout << i << " ";
+
+        vll ans(n);
+        sort(all(a), greater<pll>());
+        ll coord = 1;
+        ll mindist = 0;
+        rep(i, 0, n){
+            ans[a[i].ss] = coord;
+            mindist += 2*llabs(coord)*a[i].ff;
+            coord = (i%2)? -coord + 1 : -coord;
+        }
+        cout << mindist << endl;
+        cout << 0 << " ";
+        rep(i, 0, n)
+            cout << ans[i] << " ";
         cout << endl;
-        
 
     }
     return 0;
