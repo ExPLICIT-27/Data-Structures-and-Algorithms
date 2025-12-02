@@ -26,7 +26,7 @@ using namespace std;
 #define vsum(a) (accumulate(all(a), 0LL))
 #define vsumd(a) (accumulate(all(a), 0.0))
 
-// ---------- Fast IO ----------a
+// ---------- Fast IO ----------
 #define fastio ios::sync_with_stdio(false); cin.tie(nullptr)
 
 // ---------- Loops ----------
@@ -36,13 +36,27 @@ using namespace std;
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
-
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        
+class Solution {
+public:
+    int minMirrorPairDistance(vector<int>& nums) {
+        map<int, vi> mp;
+        rep(i, 0, sz(nums)){
+            mp[nums[i]].pb(i);
+        }
+        int ans = sz(nums) + 1;
+        rep(i, 0, sz(nums)){
+            int t = nums[i];
+            int c =0;
+            while(t > 0){
+                c = c*10 + t%10;
+                t /= 10;
+            }           
+            if(mp.count(c)){
+                auto it = upper_bound(all(mp[c]), i);
+                if(it != mp[c].end())
+                    ans = min(ans, *it - i);
+            }
+        }
+        return ans == sz(nums) + 1 ? -1 : ans;
     }
-    return 0;
-}
+};

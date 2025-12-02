@@ -26,7 +26,7 @@ using namespace std;
 #define vsum(a) (accumulate(all(a), 0LL))
 #define vsumd(a) (accumulate(all(a), 0.0))
 
-// ---------- Fast IO ----------a
+// ---------- Fast IO ----------
 #define fastio ios::sync_with_stdio(false); cin.tie(nullptr)
 
 // ---------- Loops ----------
@@ -36,13 +36,10 @@ using namespace std;
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
-
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        
+class Solution {
+public:
+    int maxDistinct(string s) {
+        uset<char> st(all(s));
+        return sz(st);
     }
-    return 0;
-}
+};

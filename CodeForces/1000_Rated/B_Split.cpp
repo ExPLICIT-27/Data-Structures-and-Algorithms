@@ -26,7 +26,7 @@ using namespace std;
 #define vsum(a) (accumulate(all(a), 0LL))
 #define vsumd(a) (accumulate(all(a), 0.0))
 
-// ---------- Fast IO ----------a
+// ---------- Fast IO ----------
 #define fastio ios::sync_with_stdio(false); cin.tie(nullptr)
 
 // ---------- Loops ----------
@@ -42,7 +42,38 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        
+        int n;
+        cin >> n;
+        n *= 2;
+        map<ll, ll> mp;
+        rep(i, 0, n){
+            ll t;
+            cin >> t;
+            mp[t]++;
+        }
+        ll ans = 0, oddc = 0;
+        for(auto [x, f] : mp){
+            if(f & 1){
+                oddc++;
+                ans++;
+            }
+            else{
+                if(f & 2)
+                    ans += 2;
+            }
+        }
+        ll cnt = 0;
+        for(auto [x, f] : mp){
+            if(f & 1 ^ 1){
+                if(!(f & 2))
+                    cnt++;
+            }
+        }
+        if(oddc >= 2)
+            cout << ans + 2*cnt << endl;
+        else{
+            cout << ans + 2*(cnt - cnt%2) << endl;
+        }
     }
     return 0;
 }

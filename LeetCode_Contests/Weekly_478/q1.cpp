@@ -26,7 +26,7 @@ using namespace std;
 #define vsum(a) (accumulate(all(a), 0LL))
 #define vsumd(a) (accumulate(all(a), 0.0))
 
-// ---------- Fast IO ----------a
+// ---------- Fast IO ----------
 #define fastio ios::sync_with_stdio(false); cin.tie(nullptr)
 
 // ---------- Loops ----------
@@ -36,13 +36,22 @@ using namespace std;
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
-
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        
+class Solution {
+public:
+    int countElements(vector<int>& nums, int k) {
+        if(k == 0)
+            return sz(nums);
+        sort(all(nums));
+        int ans = 0;
+        for(int i : nums){
+            auto it = lower_bound(all(nums), i + 1);
+            if(it == nums.end())
+                break;
+            else{
+                if(sz(nums) - (it - nums.begin()) >= k)
+                    ans++;
+            }
+        }
+        return ans;
     }
-    return 0;
-}
+};

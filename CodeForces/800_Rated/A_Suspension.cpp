@@ -26,7 +26,7 @@ using namespace std;
 #define vsum(a) (accumulate(all(a), 0LL))
 #define vsumd(a) (accumulate(all(a), 0.0))
 
-// ---------- Fast IO ----------a
+// ---------- Fast IO ----------
 #define fastio ios::sync_with_stdio(false); cin.tie(nullptr)
 
 // ---------- Loops ----------
@@ -42,7 +42,11 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        
+        int n;
+        cin >> n;
+        int y, r;
+        cin >> y >> r;
+        cout << min(n, r + y/2) << endl;
     }
     return 0;
 }

@@ -36,12 +36,45 @@ using namespace std;
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
-
+vll Genprimes(){
+    vll primes;
+    for(ll i = 2; i < 1e5; i++){
+        bool isprime = true;
+        for(ll j = 2; j*j <= i; j++){
+            if(i%j == 0){
+                isprime = false;
+                break;
+            }
+        }
+        if(isprime)
+            primes.pb(i);
+    }
+    return primes;
+}
 int main(){
     fastio;
     int T;
     cin >> T;
+    vll primes = Genprimes();
+
     while(T--){
+        ll d;
+        cin >> d;
+        ll p = 0, q = 0;
+        int i = 0;
+        for(i = 0; i < sz(primes); i++){
+            if(primes[i] > d){
+                p = primes[i];
+                break;
+            }
+        }
+        for(;i < sz(primes); i++){
+            if(primes[i] >= p + d){
+                q = primes[i];
+                break;
+            }
+        }
+        cout << min(p*p*p, p*q) << endl;
         
     }
     return 0;

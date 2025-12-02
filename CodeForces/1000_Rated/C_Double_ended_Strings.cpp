@@ -42,7 +42,18 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        
+        string a, b;
+        cin >> a >> b;
+        int n = sz(a), m = sz(b);
+        int max_sub = 0;
+        rep(i, 0, n){
+            rep(j, i, n){
+                string substr = a.substr(i, j - i + 1);
+                if(b.find(substr) != string::npos)
+                    max_sub = max(max_sub, sz(substr));
+            }
+        }
+        cout << n + m - 2*max_sub << endl;
     }
     return 0;
 }
