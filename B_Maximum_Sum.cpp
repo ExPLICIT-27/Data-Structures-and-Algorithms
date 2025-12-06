@@ -42,7 +42,30 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        
+        ll n, k;
+        cin >> n >> k;
+
+
+        vll A(n);
+
+        rep(i, 0, n){
+            cin >> A[i];
+        }
+
+        sort(all(A));
+
+        rep(i, 1, n){
+            A[i] += A[i - 1];
+        }
+        ll ans = 0;
+        rep(i, 0, k + 1){
+            int l = 2*i - 1;
+            ll lsum = l < 0 ? 0 : A[l];
+            ll rsum = A[n - (k - i) - 1];
+            ans = max(ans, rsum - lsum);
+        }   
+
+        cout << ans << endl;
     }
 
     return 0;
