@@ -42,8 +42,42 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        
-    }
+        int n;
+        cin >> n;
+        vll A(n), B(n);
 
+        rep(i, 0, n){
+            cin >> A[i];
+        }
+        rep(i, 0, n){
+            cin >> B[i];
+        }
+
+        if(vmax(B) >= vmax(A))
+            cout << 0 << endl;
+        else{
+            sort(all(B), greater<ll>());
+            sort(all(A));
+
+            vll C(n, 0);
+            rep(i, 0, n){
+                auto it = upper_bound(all(A), B[i]);
+                if(it == A.end()){
+                    break;
+                }
+                int idx = it - A.begin();
+                C[i] = n - idx;
+            }   
+            ll ans = C[0];
+            rep(i, 1, n){
+                ans = (ans*(C[i] - i))%MOD;
+                if(ans <= 0){
+                    ans = 0;
+                    break;
+                }
+            }
+            cout << ans << endl;
+        }
+    }
     return 0;
 }
