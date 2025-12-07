@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -12,6 +13,7 @@ using namespace std;
 #define uset unordered_set
 #define umap unordered_map
 
+
 // ---------- Macros ----------
 #define pb push_back
 #define ff first
@@ -24,7 +26,7 @@ using namespace std;
 #define vsum(a) (accumulate(all(a), 0LL))
 #define vsumd(a) (accumulate(all(a), 0.0))
 
-// ---------- Fast IO ----------
+// ---------- Fast IO ----------a
 #define fastio ios::sync_with_stdio(false); cin.tie(nullptr)
 
 // ---------- Loops ----------
@@ -35,49 +37,26 @@ using namespace std;
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
 
-// ---------- PBDS ---------- policy based data strcutures, faster sets and maps
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
 
-// Ordered Set (no duplicates)
-template<typename T>
-using ordered_set = tree<
-    T,
-    null_type,
-    less<T>,
-    rb_tree_tag,
-    tree_order_statistics_node_update
->;
-
-// Ordered Multiset (allows duplicates using unique IDs)
-template<typename T>
-using ordered_multiset = tree<
-    pair<T,int>,
-    null_type,
-    less<pair<T,int>>,
-    rb_tree_tag,
-    tree_order_statistics_node_update
->;
-
-// Ordered Map (key → value)
-template<typename K, typename V>
-using ordered_map = tree<
-    pair<K,V>,
-    null_type,
-    less<pair<K,V>>,
-    rb_tree_tag,
-    tree_order_statistics_node_update
->;
-
-
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        
+class Solution {
+public:
+    bool isPrime(int n){
+        if(n <= 1)
+            return false;
+        for(int i = 2; i*i <= n; i++){
+            if(n%i == 0)
+                return false;
+        }
+        return true;
     }
-
-    return 0;
-}
+    bool completePrime(int num) {
+        string nm = to_string(num);
+        for(int i = 0; i < sz(nm); i++){
+            if(!isPrime(stoi(nm.substr(i))))
+                return false;
+            if(!isPrime(stoi(nm.substr(0, i + 1))))
+                return false;
+        }
+        return true;
+    }
+};

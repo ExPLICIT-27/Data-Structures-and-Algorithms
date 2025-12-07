@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -12,6 +13,7 @@ using namespace std;
 #define uset unordered_set
 #define umap unordered_map
 
+
 // ---------- Macros ----------
 #define pb push_back
 #define ff first
@@ -24,7 +26,7 @@ using namespace std;
 #define vsum(a) (accumulate(all(a), 0LL))
 #define vsumd(a) (accumulate(all(a), 0.0))
 
-// ---------- Fast IO ----------
+// ---------- Fast IO ----------a
 #define fastio ios::sync_with_stdio(false); cin.tie(nullptr)
 
 // ---------- Loops ----------
@@ -35,49 +37,31 @@ using namespace std;
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
 
-// ---------- PBDS ---------- policy based data strcutures, faster sets and maps
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-
-// Ordered Set (no duplicates)
-template<typename T>
-using ordered_set = tree<
-    T,
-    null_type,
-    less<T>,
-    rb_tree_tag,
-    tree_order_statistics_node_update
->;
-
-// Ordered Multiset (allows duplicates using unique IDs)
-template<typename T>
-using ordered_multiset = tree<
-    pair<T,int>,
-    null_type,
-    less<pair<T,int>>,
-    rb_tree_tag,
-    tree_order_statistics_node_update
->;
-
-// Ordered Map (key → value)
-template<typename K, typename V>
-using ordered_map = tree<
-    pair<K,V>,
-    null_type,
-    less<pair<K,V>>,
-    rb_tree_tag,
-    tree_order_statistics_node_update
->;
-
-
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        
+// sort based on the gain obtained while swapping out t2[i] for t1[i]
+class Solution {
+public:
+    long long maxPoints(vector<int>& t1, vector<int>& t2, int k) {
+        vector<pll> unchosen;
+        int used = 0;
+        ll ans = 0;
+        int n = sz(t1);
+        rep(i, 0, n){
+            if(t1[i] >= t2[i]){
+                ans += t1[i];
+                k--;
+            }
+            else{
+                ans += t2[i];
+                unchosen.push_back({t1[i], t2[i]});
+            }
+        }
+        if(k <= 0)
+            return ans;
+        sort(all(unchosen), [](const pll &a, const pll &b){
+            return (a.ff - a.ss) > (b.ff - b.ss);
+        });
+        rep(i, 0, k)
+            ans += (unchosen[i].ff - unchosen[i].ss);
+        return ans;
     }
-
-    return 0;
-}
+};

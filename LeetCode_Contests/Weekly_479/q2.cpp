@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -12,6 +13,7 @@ using namespace std;
 #define uset unordered_set
 #define umap unordered_map
 
+
 // ---------- Macros ----------
 #define pb push_back
 #define ff first
@@ -24,7 +26,7 @@ using namespace std;
 #define vsum(a) (accumulate(all(a), 0LL))
 #define vsumd(a) (accumulate(all(a), 0.0))
 
-// ---------- Fast IO ----------
+// ---------- Fast IO ----------a
 #define fastio ios::sync_with_stdio(false); cin.tie(nullptr)
 
 // ---------- Loops ----------
@@ -34,50 +36,36 @@ using namespace std;
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
-
-// ---------- PBDS ---------- policy based data strcutures, faster sets and maps
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-
-// Ordered Set (no duplicates)
-template<typename T>
-using ordered_set = tree<
-    T,
-    null_type,
-    less<T>,
-    rb_tree_tag,
-    tree_order_statistics_node_update
->;
-
-// Ordered Multiset (allows duplicates using unique IDs)
-template<typename T>
-using ordered_multiset = tree<
-    pair<T,int>,
-    null_type,
-    less<pair<T,int>>,
-    rb_tree_tag,
-    tree_order_statistics_node_update
->;
-
-// Ordered Map (key → value)
-template<typename K, typename V>
-using ordered_map = tree<
-    pair<K,V>,
-    null_type,
-    less<pair<K,V>>,
-    rb_tree_tag,
-    tree_order_statistics_node_update
->;
-
-
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        
+class Solution {
+public:
+    vll genPrimes(int n){
+        vll primes;
+        vector<bool> isP(n + 1, true);
+        isP[0] = isP[1] = false;
+        for(ll i = 2; i <= n; i++){
+            if(isP[i]){
+                for(ll j = i*i; j <= n; j += i)
+                    isP[j] = false;
+            }
+        }
+        for(ll i = 2; i <= n; i++){
+            if(isP[i])
+                primes.pb(i);
+        }
+        return primes;
     }
-
-    return 0;
-}
+    int largestPrime(int n) {
+        vll primes = genPrimes(n);
+        uset<ll> pset(all(primes));
+        ll csum = 0;
+        ll ans = 0;
+        for(int i = 0; i < sz(primes); i++){
+            csum += primes[i];
+            if(pset.count(csum) && csum <= n)
+                ans = csum;
+            if(csum > n)
+                break;
+        }
+        return ans;
+    }
+};
