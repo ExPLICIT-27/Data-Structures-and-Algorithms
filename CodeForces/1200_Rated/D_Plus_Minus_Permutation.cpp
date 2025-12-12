@@ -70,15 +70,25 @@ using ordered_map = tree<
     tree_order_statistics_node_update
 >;
 
-void solve(){
 
-}
 int main(){
     fastio;
     int T;
     cin >> T;
     while(T--){
-        solve();
+        ll n, x, y;
+
+        cin >> n >> x >> y;
+
+        ll z = lcm(x, y);
+        ll common = n/z;
+        ll nx = n - (n/x - common);
+        ll ny = n/y - common;
+        ll ysum = ny*(ny + 1)/2;
+        ll xsum = n*(n + 1)/2 - nx*(nx + 1)/2;
+
+        cout << xsum - ysum << endl;
+        
     }
 
     return 0;

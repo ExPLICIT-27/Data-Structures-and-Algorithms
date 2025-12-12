@@ -70,15 +70,33 @@ using ordered_map = tree<
     tree_order_statistics_node_update
 >;
 
-void solve(){
 
-}
 int main(){
     fastio;
     int T;
     cin >> T;
     while(T--){
-        solve();
+        int n;
+        cin >> n;
+        vi A(n);
+
+        int ans = 0;
+        rep(i, 0, n){
+            cin >> A[i];
+        }
+        rep(i, 0, n){
+            if(A[i] == 101)
+                continue;
+            rep(j, i + 1, n){
+                if(A[i] > A[j]){
+                    ans++;
+                    A[j] = 101;
+                }
+                    
+            }
+        }
+        
+        cout << ans << endl;
     }
 
     return 0;

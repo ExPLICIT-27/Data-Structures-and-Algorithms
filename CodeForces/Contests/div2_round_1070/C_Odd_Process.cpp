@@ -71,14 +71,64 @@ using ordered_map = tree<
 >;
 
 void solve(){
+    int n;
+    cin >> n;
 
+    vll O, E;
+
+    rep(i, 0, n){
+        ll t;
+        cin >> t;
+        if(t & 1)
+            O.pb(t);
+        else
+            E.pb(t);
+    }
+
+    sort(all(E));
+    sort(all(O));
+
+    if(sz(E) == n){
+        rep(i, 0, n)
+            cout << 0 << " ";
+        cout << endl;
+        return;
+    }
+    if(sz(O) == n){
+        rep(i, 0, n){
+            if(i & 1 ^ 1)
+                cout << O.back() << " ";
+            else
+                cout << 0 << " ";
+        }
+        cout << endl;
+        return;
+    }
+    vector<ll> ans(n + 1);
+    ans[1] = O.back();
+    rep(k, 2, n + 1){
+        if(sz(E) == 0)
+            ans[k] = ans[k - 2];
+        else{
+            ans[k] = ans[k - 1] + E.back();
+            E.pop_back();
+        }
+    }
+    ll total = vsum(E) + vsum(O);
+
+    if(total&1^1)
+        ans[n] = 0;
+    
+    rep(i, 1, n + 1)
+        cout << ans[i] << " ";
+    cout << endl;
 }
 int main(){
     fastio;
     int T;
     cin >> T;
     while(T--){
-        solve();
+        solve();    
     }
 
     return 0;
