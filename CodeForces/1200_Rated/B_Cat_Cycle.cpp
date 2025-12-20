@@ -72,7 +72,19 @@ using ordered_map = tree<
 >;
 
 void solve(){
+    ll n, k;
 
+    cin >> n >> k;
+
+    if(n & 1 ^ 1){
+        cout << (k - 1)%n + 1 << nline;
+    }
+    else{
+        ll f = n/2;
+        ll num_coll = (k + f - 1)/f - 1;
+        ll poss = ((k - num_coll) + 2*num_coll - 1)%n + 1;
+        cout << poss << nline;
+    }
 }
 int main(){
     fastio;

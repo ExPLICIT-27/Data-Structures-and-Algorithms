@@ -72,7 +72,40 @@ using ordered_map = tree<
 >;
 
 void solve(){
+    int n, m;
 
+    cin >> n >> m;
+
+    map<int, int> mp, copy;
+    for(int i = 0; i < n; i++){
+        int t;
+        cin >> t;
+        mp[t%m]++;
+        copy[t%m]++;
+    }
+    int ans = n;
+    for(auto &[x, y] : copy){
+        if(mp.count(x)){
+            int r = (m - x%m)%m;
+            if(r == x){
+                ans -= (mp[x] - 1);
+                mp.erase(x);
+                continue;
+            }
+            else if(mp.count(r)){
+                int R = 2*min(mp[r], mp[x]);
+
+                if(mp[r] - R/2 > 0 || mp[x] - R/2 > 0)
+                    R++;
+                ans -= (R - 1);
+
+                mp.erase(x);
+                mp.erase(r);
+            }
+        }
+    }
+
+    cout << ans << nline;
 }
 int main(){
     fastio;

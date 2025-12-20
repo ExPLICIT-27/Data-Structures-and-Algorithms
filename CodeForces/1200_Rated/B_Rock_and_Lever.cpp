@@ -72,6 +72,36 @@ using ordered_map = tree<
 >;
 
 void solve(){
+    int n;
+    
+
+    cin >> n;
+
+    vll A(n);
+
+    rep(i, 0, n){
+        cin >> A[i];
+    }
+
+    vi SB(32, 0);
+    rep(i, 0, n){
+        repd(j, 31, 0){
+            if((1 << j) & A[i]){
+                SB[j]++;
+                break;
+            }
+        }
+    }
+
+    ll ans = 0;
+    repd(i, 31, 0){
+        if(SB[i]){
+            ans += 1ll*SB[i]*(SB[i] - 1)/2;
+        }
+    }
+
+    cout << ans << nline;
+
 
 }
 int main(){

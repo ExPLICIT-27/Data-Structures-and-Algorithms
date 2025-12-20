@@ -72,7 +72,44 @@ using ordered_map = tree<
 >;
 
 void solve(){
+    int n;
 
+    cin >> n;
+
+    vll A(n);
+
+    map<ll, ll> mp;
+    rep(i, 0, n){
+        cin >> A[i];
+        mp[A[i]]++;
+    }
+    if(sz(mp) == 1){
+        cout << "NO\n";
+        return;
+    }
+    cout << "YES\n";
+    ll smallest = -1, len = n + 1;
+    for(auto &[x, y] : mp){
+        if(y < len){
+            len = y;
+            smallest = x;
+        }
+    }
+    vll others, target;
+    rep(i, 0, n){
+        if(A[i] != smallest)
+            others.pb(i + 1);
+        else
+            target.pb(i + 1);
+    }
+
+    rep(i, 0, sz(others)){
+        cout << target[0] << " " << others[i] << nline;
+    }
+    int j = 0;
+    rep(i, 1, sz(target)){
+        cout << others[j++] << " " << target[i] << nline;
+    }
 }
 int main(){
     fastio;
