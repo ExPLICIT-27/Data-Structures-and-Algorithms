@@ -13,6 +13,7 @@ using namespace std;
 #define umap unordered_map
 
 // ---------- Macros ----------
+#define nline '\n'
 #define pb push_back
 #define ff first
 #define ss second
@@ -69,39 +70,41 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-#include <fstream>
 
-int main(){
-    
-    ifstream file("test.txt");
-    if (!file.is_open()) return 1;
 
-    string line;
+void solve(){
+    ll n, k;
 
-    ll ans = 0;
-    while(getline(file, line)){
-        vi dels;
-        int n = sz(line);
-        int mdels = n - 12;
-        if(mdels == 0){
-            ans += stoll(line);
-            continue;
-        }
-        string stk = "";
-        rep(i, 0, n){
-            if(stk.empty())
-                stk += line[i];
-            else{
-                while(!stk.empty() && mdels > 0 && stk.back() < line[i]){
-                    stk.pop_back();
-                    mdels--;
-                }
-                stk += line[i];
-            }
-        }
-        ans += stoll(stk.substr(0, 12));
-        
+    cin >> n >> k;
+
+    if(k >= n){
+        cout << 1 << nline;
+        return;
     }
-    cout << ans << endl;
+
+    vll D;
+
+    for(ll i = 1; i*i <= n; i++){
+        if(n%i == 0){
+            D.pb(i);
+            if(n/i != i)
+                D.pb(n/i);
+        }
+    }
+    D.pb(n);
+    sort(all(D));
+    auto it = upper_bound(all(D), k);
+    --it;
+    cout << n/(*it) << nline;
+    
+}
+int main(){
+    fastio;
+    int T;
+    cin >> T;   
+    while(T--){
+        solve();
+    }
+
     return 0;
 }

@@ -13,6 +13,7 @@ using namespace std;
 #define umap unordered_map
 
 // ---------- Macros ----------
+#define nline '\n'
 #define pb push_back
 #define ff first
 #define ss second
@@ -69,84 +70,74 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-#include <fstream>
 
 
-bool isValid(int x, int y, int N, int M){
-    return (x >= 0 && x < N && y >= 0 && y < M);
-}
+void solve(){
+    ll n;
+    cin >> n;
 
-struct Node{
-    int x, y, c;
-    Node(int x, int y, int c){
-        this->x = x;
-        this->y = y;
-        this->c = c;
-    }
-};
-struct Comparator {
-    bool operator()(const Node &A, const Node &B) const {
-        if (A.c != B.c) return A.c < B.c;
-        if (A.x != B.x) return A.x < B.x;
-        return A.y < B.y;
-    }
-};
-
-int main(){
+    vll PD;
     
-    ifstream file("input_4.txt");
-    if (!file.is_open()) return 1;
-
-    string line;
-
-    vector<string> V;
-    while(getline(file, line)){
-        if(!line.empty())
-            V.pb(line);
+    ll t = n;
+    for(ll i = 2; i*i <= n; i++){
+        while(n%i == 0){
+            PD.pb(i);
+            n /= i;
+        }
     }
-    int N = sz(V), M = sz(V[0]);
+    if(n > 1 && n != t)
+        PD.pb(n);
+    if(sz(PD) < 3){
+        cout << "NO\n";
+    }
+    else{
+        set<int> S(all(PD));
+        if(sz(S) == 1){
+            if(sz(PD) < 6)
+                cout << "NO\n";
+            else{
+                cout << "YES\n";
+                cout << PD[0] << " " << PD[1]*PD[2] << " ";
+                ll c = PD[3];
 
-    int dirx[] = {0, 0, -1, 1, -1, -1, 1, 1};
-    int diry[] = {-1, 1, 0, 0, -1, 1, -1, 1};
-
-    ll ans = 0;
-    map<pii, int> mp;
-    set<Node, Comparator> S;
-    for(int i = 0; i < N; i++){
-        for(int j = 0; j < M; j++){
-            if(V[i][j] == '@'){
-                int cnt = 0;
-                for(int k = 0; k < 8; k++){
-                    int nx = i + dirx[k];
-                    int ny = j + diry[k];
-
-                    if(isValid(nx, ny, N, M) && V[nx][ny] == '@')
-                        cnt++;
+                rep(i, 4, sz(PD))
+                    c *= PD[i];
+                cout << c << nline;
+            }
+        }
+        else if(sz(S) == 2){
+            if(sz(PD) < 4){
+                cout << "NO\n";
+            }
+            else{
+                cout << "YES\n";
+                cout << PD[0] << " ";
+                ll b = PD[1];
+                rep(i, 2, sz(PD) - 1){
+                    b *= PD[i];
                 }
-                mp[{i, j}] = cnt;
-                S.insert(Node(i, j, cnt));
+
+                cout << b << " " << PD.back() << nline;
             }
         }
-    }
-    while(!S.empty()){
-        auto u = *(S.begin());
-        if(u.c < 4)
-            ans++;
-        else
-            break;
-        S.erase(S.begin());
-        mp.erase({u.x, u.y});
-        for(int i = 0; i < 8; i++){
-            int nx = u.x + dirx[i];
-            int ny = u.y + diry[i];
-            if(mp.count({nx, ny})){
-                Node v = Node(nx, ny, mp[{nx, ny}] - 1);
-                S.erase({nx, ny, mp[{nx, ny}]});
-                mp[{nx, ny}]--;
-                S.insert(v);
+        else{
+            cout << "YES\n";
+            cout << PD[0] << " ";
+            ll b = PD[1];
+            rep(i, 2, sz(PD) - 1){
+                b *= PD[i];
             }
+            cout << b << " " << PD.back() << nline;
         }
     }
-    cout << ans << endl;
+}
+int main(){
+    fastio;
+    int T;
+    cin >> T;   
+    while(T--){
+        solve();
+    }
+
     return 0;
 }

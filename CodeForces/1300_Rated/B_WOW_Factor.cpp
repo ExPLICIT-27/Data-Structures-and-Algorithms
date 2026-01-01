@@ -13,6 +13,7 @@ using namespace std;
 #define umap unordered_map
 
 // ---------- Macros ----------
+#define nline '\n'
 #define pb push_back
 #define ff first
 #define ss second
@@ -69,48 +70,48 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-#include <fstream>
 
-int main(){
-    
-    ifstream file("input_2.txt");
-    if (!file.is_open()) return 1;
+void solve(){
+    string S;
 
-    string s;
-    getline(file, s); 
-
-    vector<pll> A;
-
-    stringstream ss(s);
-    string token;
-    ll ans = 0;
-    while(getline(ss, token, ',')){
-        int h = token.find('-');
-
-        ll L = stoll(token.substr(0, h));
-        ll R = stoll(token.substr(h + 1));
-        for(ll i = L; i <= R; i++){
-            string tmp = to_string(i);
-            for(int S = 1; S <= sz(tmp)/2; S++){
-                bool ok = false;
-                if(sz(tmp)%S == 0){
-                    uset<string> st;
-                    for(int j = 0; j + S <= sz(tmp); j += S){
-                        st.insert(tmp.substr(j, S));
-                        if(sz(st) >= 2)
-                            break;
-                    }
-                    if(sz(st) == 1){
-                        ans += i;
-                        ok = true;
-                        break;
-                    }
-                }
-                if(ok)
-                    break;
-            }
-        }
+    cin >> S;
+    int n = sz(S);
+    // DP states :  0 -> '', 1 -> 'w', 2 -> 'wo', 3 -> 'wow'
+    // transitions
+    /*
+    if s[i - 1] == s[i - 2] // 1 based indexing
+        state 0 to 1 and state 2 to 3
+        dp[i][1] += dp[i - 2][0] // since i - 1 is v
+        dp[i][3] += dp[i - 2][2]
+    if s[i - 1] == 'o'
+        dp[i][2] += dp[i - 1][1]
+    */
+    ll wcnt = 0;
+    rep(i, 1, n){
+        if(S[i] == 'v' && S[i - 1] == 'v') 
+            wcnt++;
     }
-    cout << ans << endl;
+    ll pcnt = 0;
+    ll ans = 0;
+    rep(i, 1, n){
+        if(S[i] == 'v' && S[i - 1] == 'v'){
+            pcnt++;
+            wcnt--;
+        }
+        if(S[i] == 'o')
+            ans += pcnt*wcnt;
+    }
+
+    cout << ans << nline;
+}
+int main(){
+    fastio;
+    solve();
+    // int T;
+    // cin >> T;
+    // while(T--){
+    //     solve();
+    // }
+
     return 0;
 }

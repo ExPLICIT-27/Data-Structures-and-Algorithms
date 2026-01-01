@@ -13,6 +13,7 @@ using namespace std;
 #define umap unordered_map
 
 // ---------- Macros ----------
+#define nline '\n'
 #define pb push_back
 #define ff first
 #define ss second
@@ -69,60 +70,47 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-#include <fstream>
 
+
+void solve(){
+    int n;
+
+    cin >> n;
+
+    vi A(n);
+
+    rep(i, 0, n){
+        cin >> A[i];
+    }
+
+    vi ans;
+    ans.pb(A[0]);
+    int i = 1;
+    while(i < n){
+        if(A[i] > A[i - 1]){
+            while(i < n && A[i] > A[i - 1])
+                i++;
+        }
+        else{
+            while(i < n && A[i] < A[i - 1])
+                i++;
+        }
+        ans.pb(A[i - 1]);
+    }
+    cout << sz(ans) << nline;
+
+    for(int i : ans)
+        cout << i << " ";
+    cout << nline;
+    
+}
 int main(){
-    
-    ifstream file("input_6.txt");
-    if (!file.is_open()) return 1;
-
-    string line;
-
-    vector<pll> ranges;
-    vll Q;
-    bool q = false;
-    vector<string> A;
-    while(getline(file, line)){
-        if(!line.empty()){
-            A.pb(line);
-        }
-    }
-    int N = sz(A);
-    vector<vll> B(N - 1);
-
-    rep(i, 0, N - 1){
-        stringstream ss(A[i]);
-        ll tmp;
-        while(ss >> tmp){
-            B[i].pb(tmp);
-        }
+    fastio;
+    int T;
+    cin >> T;   
+    while(T--){
+        solve();
     }
 
-    // for(auto &v : B){
-    //     for(ll i : v)
-    //         cout << i << " ";
-    //     cout << endl;
-    // }
-    vector<char> ops;
-    stringstream ss(A.back());
-    char tmp;
-    while(ss >> tmp){
-        ops.pb(tmp);
-    }
-    int M = sz(B[0]);
-
-    ll ans = 0;
-    rep(j, 0, M){
-        ll curr = B[0][j];
-        rep(i, 1, sz(B)){
-            if(ops[j] == '+')
-                curr += B[i][j];
-            else
-                curr *= B[i][j];
-        }
-        ans += curr;
-    }
-    cout << ans << endl;
-    
     return 0;
 }

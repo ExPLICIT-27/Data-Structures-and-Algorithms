@@ -13,6 +13,7 @@ using namespace std;
 #define umap unordered_map
 
 // ---------- Macros ----------
+#define nline '\n'
 #define pb push_back
 #define ff first
 #define ss second
@@ -69,70 +70,45 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-#include <fstream>
 
-int main(){
-    
-    ifstream file("input_5.txt");
-    if (!file.is_open()) return 1;
+void solve(){
+    int n;
+    cin >> n;
 
-    string line;
-
-    vector<pll> ranges;
-    vll Q;
-    bool q = false;
-    while(getline(file, line)){
-        if(line.empty()){
-            q = true;
-            continue;
-        }
-        if(q)
-            Q.pb(stoll(line));
-        else{
-            int pos = line.find('-');
-            ll st = stoll(line.substr(0, pos));
-            ll en = stoll(line.substr(pos + 1));
-            ranges.pb({st, en});
-        }
+    vi A(n), B(n);
+    map<int, int> mp;
+    rep(i, 0, n){
+        cin >> A[i];
+        mp[A[i]] = i;
     }
 
-    // merge the ranges
-    sort(all(ranges));
-    vector<pll> F;// final range 
-    F.pb(ranges[0]);
-    int n = sz(ranges);
+    vi C(n);
+
+    rep(i, 0, n){
+        cin >> B[i];
+        C[mp[B[i]]] = i;
+    }
+
+    int cmax = C[0], ans = 0;
+
     rep(i, 1, n){
-        if(ranges[i].ff <= F.back().ss){
-            F.back().ss = max(F.back().ss, ranges[i].ss);
-        }
-        else{
-            F.pb(ranges[i]);
-        }
+        if(C[i] < cmax)
+            ans++;
+        cmax = max(cmax, C[i]);
     }
-    sort(all(F), [](const pll &A, const pll &B){
-        if(A.ss != B.ss)
-            return A.ss < B.ss;
-        return A.ff < B.ff;
-    });
-    // for(auto &p : F)
-    //     cout << p.ff << " " << p.ss << endl;
-    ll ans = 0;
-    for(ll a : Q){
-        auto it = lower_bound(all(F), make_pair(LLONG_MIN, a), [](const pll &A, const pll &B){
-            if(A.ss != B.ss)
-                return A.ss < B.ss;
-            return A.ff < B.ff;
-        });
-        if(it != F.end()){
-            if(a >= it->first && a <= it->second)
-                ans++;
-        }
-    }
-    ans = 0;
-    for(auto &p : F){
-        ans += (p.ss - p.ff + 1);
-    }
-    cout << ans << endl;
+
+    cout << ans << nline;
     
+
+}
+int main(){
+    fastio;
+    solve();
+    // int T;
+    // cin >> T;
+    // while(T--){
+    //     solve();
+    // }
+
     return 0;
 }
