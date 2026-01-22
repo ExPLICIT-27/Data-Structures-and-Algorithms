@@ -70,28 +70,63 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
+class Solution {
+public:
+    // prefix maximum, keep the top two maximum to take second biggest in case
+    // of repeated index
+    int maxCapacity(vector<int>& costs, vector<int>& capacity, int budget) {
+        int n = sz(costs);
 
-void solve(){
-    int n;
-    cin >> n;
+        vector<pair<int, int>> CC(n);
 
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++)
-            cout << (j + i)%n << " ";
-        cout << nline;
+        for(int i = 0; i < n; i++){
+            CC[i].ff = costs[i], CC[i].ss = capacity[i];
+        }
+        
+        sort(all(CC), [](const pair<int, int> &a, const pair<int, int> &b){
+            return a.ff < b.ff;
+        });
+
+        vector<pair<int, int>> P(n);
+        P[0].ff = CC[0].ss, P[0].ss = 0;
+        for(int i = 1; i < n; i++){
+            P[i] = P[i - 1];
+            if(CC[i].ss > P[i].ff){
+                P[i].ss = P[i].ff;
+                P[i].ff = CC[i].ss;
+            }
+            else if(CC[i].ss > P[i].ss)
+                P[i].ss = CC[i].ss;
+        }
+        sort(all(CC), [](const pair<int, int> &a, const pair<int, int> &b){
+            return a.ss > b.ss;
+        });
+
+        sort(all(costs));
+
+        int ans = 0;
+        for(int i = 0; i < n; i++){
+            auto &p = CC[i];
+            if(p.ff >= budget)
+                continue;
+            int r = budget - p.ff - 1;
+            auto it = upper_bound(all(costs), r);
+            if(it == costs.begin())
+                ans = max(ans, p.ss);
+            else{
+                it--;
+                int idx = it - costs.begin();
+                if(P[idx].ff == p.ss)
+                    ans = max(ans, p.ss + P[idx].ss);
+                else
+                    ans = max(ans, p.ss + P[idx].ff);
+            }
+            
+        }
+
+        
+        
+
+        return ans;
     }
-    cout << nline;
-
-   
-}
-int main(){
-    fastio;
-    solve();
-    // int T;
-    // cin >> T;
-    // while(T--){
-    //     solve();
-    // }
-
-    return 0;
-}
+};

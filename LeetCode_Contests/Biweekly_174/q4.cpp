@@ -70,34 +70,47 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-void solve(){
-    int n, m;
-
-
-    cin >> n >> m;
-
-    vll A(n), B(n);
-
-    rep(i, 0, n)    
-        cin >> A[i];
-    
-    rep(i, 0, n)
-        cin >> B[i];
-    
-    sort(all(A));
-    sort(all(B));
-
-    
-    
-    
-}
-int main(){
-    fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
+class Solution {
+public:
+    char flip(char c){
+        return c == '0'? '1' : '0';
     }
+    // TLE eliminator's logic, bfs at leaves
+    vector<int> minimumFlips(int n, vector<vector<int>>& edges, string start, string target) {
+        vector<set<pair<int, int>>> G(n);
 
-    return 0;
-}
+        for(int i = 0; i < n - 1; i++){
+            auto e = edges[i];
+            G[e[0]].insert({e[1], i});
+            G[e[1]].insert({e[0], i});
+        }
+
+        queue<pair<int, int>> q;
+
+        for(int i = 0; i < n; i++){
+            if(sz(G[i]) == 1)
+                q.push({i, G[i].begin()->ss});
+        }
+
+        vector<int> ans;
+        while(!q.empty()){
+            auto u = q.front(); q.pop();
+            auto v = *(G[u.ff].begin());
+            if(start[u.ff] != target[u.ff]){
+                ans.pb(u.ss);
+                start[u.ff] = flip(start[u.ff]);
+                start[v.ff] = flip(start[v.ff]);
+            }
+            G[v.ff].erase(u);
+            G[u.ff].erase(v);
+            if(sz(G[v.ff]) == 1){
+                q.push({v.ff, G[v.ff].begin()->ss});
+            }
+        }
+
+        sort(all(ans));
+        if(start == target)
+            return ans;
+        return {-1};
+    }
+};
