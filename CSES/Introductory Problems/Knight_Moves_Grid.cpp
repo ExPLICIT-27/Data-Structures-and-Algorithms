@@ -70,44 +70,55 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-
+bool isValid(int x, int y, int n){
+    return x >= 0 && x < n && y >= 0 && y < n;
+}
 void solve(){
-    int n, m;
+    int n;
+    cin >> n;
 
-    cin >> n >> m;
+    vector<vll> G(n, vll(n));
+    vector<vector<bool>> V(n, vector<bool>(n, false));
 
-    map<ll, ll> mp;
+    V[0][0] = true;
+    G[0][0] = 0;
 
-    for(int i = 0; i < m; i++){
-        ll u, v;
-        
-        cin >> u >> v;
-        
-        if(u > v)
-            swap(u, v);
-        if(mp.count(u))
-            mp[u] = min(mp[u], v);
-        else
-            mp[u] = v;
+    int dirx[] = {2, 2, -2, -2, 1, 1, -1, -1};
+    int diry[] = {1, -1, 1, -1, 2, -2, 2, -2};
+
+    queue<pii> Q;
+    Q.push({0, 0});
+
+    while(!Q.empty()){
+        auto [x, y] = Q.front();
+        Q.pop();
+
+        for(int i = 0; i < 8; i++){
+            int nx = x + dirx[i];
+            int ny = y + diry[i];
+
+            if(isValid(nx, ny, n) && !V[nx][ny]){
+                G[nx][ny] = G[x][y] + 1;
+                V[nx][ny] = true;
+                Q.push({nx, ny});
+            }
+        }
     }
 
-    ll ans = 1ll*n*(n + 1)/2;
-    ll prev = 0;
-    for(auto &[x, y] : mp){
-        ans -= 1ll*((x - prev)*(n*1ll - y + 1));
-        prev = x;
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++)
+            cout << G[i][j] << " ";
+        cout << nline;
     }
-        
-    
-    cout << ans << nline;
 }
 int main(){
     fastio;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
-    }
+    solve();
+    // int T;
+    // cin >> T;
+    // while(T--){
+    //     solve();
+    // }
 
-    return 0;
+    // return 0;
 }
