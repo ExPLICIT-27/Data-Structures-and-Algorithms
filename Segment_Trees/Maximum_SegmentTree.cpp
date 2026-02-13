@@ -120,7 +120,6 @@ class SEG{
 
 
 };
-
 int main(){
 
     int n;  
