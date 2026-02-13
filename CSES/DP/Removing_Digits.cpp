@@ -71,24 +71,25 @@ using ordered_map = tree<
     tree_order_statistics_node_update
 >;     
 void solve(){
-    int n, x; cin >> n >> x;
+    int n; cin >> n;
+    vector<ll> dp(n + 1, n + 1);
+    dp[0] = 0;
 
-    vll A(n);
-
-    for(ll &i : A)  
-        cin >> i;
-
-    vll dp(x + 1, 0);
-    dp[0] = 1;
-
-    // for permutations you restart coins every time, coins inside target
-    for(int i = 1; i <= x; i++){
-        for(ll coin : A){
-            if(i - coin >= 0)
-                dp[i] = (dp[i] + dp[i - coin])%MOD;
+    for(int i = 1; i <= n; i++){
+        int t = i;
+        while(t){
+            if(t%10 == 0){
+                t /= 10;
+                continue;
+            }
+            int x = t%10;
+            if(dp[i - x] != -1)
+                dp[i] = min(dp[i], 1 + dp[i - x]);
+            t /= 10;
         }
     }
-    cout << dp[x] << nline;
+
+    cout << dp[n] << nline;
 
 }
 int main(){

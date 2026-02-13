@@ -70,6 +70,15 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;     
+ll helper(int x, vll &A, int i){
+    if(x == 0)
+        return 1ll;
+
+    if(x < 0 || i == -1)
+        return 0ll;
+
+    return (helper(x - A[i], A, i) + helper(x, A, i - 1))%MOD;
+}
 void solve(){
     int n, x; cin >> n >> x;
 
@@ -78,18 +87,18 @@ void solve(){
     for(ll &i : A)  
         cin >> i;
 
+    // for combinations, target after coins, so that you dont restart coins everytime
     vll dp(x + 1, 0);
     dp[0] = 1;
 
-    // for permutations you restart coins every time, coins inside target
-    for(int i = 1; i <= x; i++){
-        for(ll coin : A){
-            if(i - coin >= 0)
-                dp[i] = (dp[i] + dp[i - coin])%MOD;
+    for(int j = 0; j < n; j++){
+        for(int i = 1; i <= x; i++){
+            if(i - A[j] >= 0)
+                dp[i] = (dp[i] + dp[i - A[j]])%MOD;
         }
     }
-    cout << dp[x] << nline;
 
+    cout << dp[x] << nline;
 }
 int main(){
     fastio;
