@@ -26,7 +26,7 @@ using namespace std;
 #define vsumd(a) (accumulate(all(a), 0.0))
 
 // ---------- Fast IO ----------
-#define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
+#define fastio ios::sync_with_stdio(false); cin.tie(nullptr)
 
 // ---------- Loops ----------
 #define rep(i,a,b) for (int i = (a); i < (b); i++)
@@ -70,17 +70,57 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
+ll helper(int a, int b, vector<vll> &dp){
+    if(a == b)
+        return 0;
+    
+    if(dp[a][b] != -1)
+        return dp[a][b];
 
+    ll ans = LLONG_MAX;
+    for(int i = 1; i < a; i++){
+        ans = min(ans, 1 + helper(a - i, b, dp) + helper(i, b, dp));
+    }
+
+
+    for(int i = 1; i < b; i++){
+        ans = min(ans, 1 + helper(min(a, b - i), max(a, b - i), dp) + helper(min(i, a), max(i, a), dp));
+    }
+    return dp[a][b] = ans;
+
+}
 void solve(){
+    int a, b;
+    cin >> a >> b;
+    vector<vll> dp(a + 1, vll(b + 1, INF));
+    // cout << helper(min(a, b), max(a, b), dp) << nline;
+
+    for(int i = 1; i <= a; i++){
+        for(int j = 1; j <= b; j++){
+            if(i == j){
+                dp[i][j] = 0;
+                continue;
+            }
+            // horizontal cuts
+            for(int h = 1; h < i; h++)
+                dp[i][j] = min(dp[i][j], 1 + dp[h][j] + dp[i - h][j]);
+            //vertical
+            for(int v = 1; v < j; v++)
+                dp[i][j] = min(dp[i][j], 1 + dp[i][v] + dp[i][j - v]);
+        }
+    }
+
+    cout << dp[a][b] << nline;
 
 }
 int main(){
-    ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
-    }
+    fastio;
+    solve();
+    // int T;
+    // cin >> T;
+    // while(T--){
+    //     solve();
+    // }
 
     return 0;
 }

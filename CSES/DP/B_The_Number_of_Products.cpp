@@ -26,7 +26,7 @@ using namespace std;
 #define vsumd(a) (accumulate(all(a), 0.0))
 
 // ---------- Fast IO ----------
-#define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
+#define fastio ios::sync_with_stdio(false); cin.tie(nullptr)
 
 // ---------- Loops ----------
 #define rep(i,a,b) for (int i = (a); i < (b); i++)
@@ -72,15 +72,57 @@ using ordered_map = tree<
 >;
 
 void solve(){
+    /*
+    we need to cnt how many subarrays yield positive product, the other part can be n*(n + 1)/2 - positive
 
+    for positive product:
+
+    for any given r, if the number of negative numbers till then is even, we need to find
+    the number of l's such that l <= r and the number of negative numbers at l is even (even - even = even)
+
+    similary for any given r, if neg count is odd, count how many l's such that the no. of negative numbers
+    there are odd (odd - odd = even)
+    */
+
+    int n; cin >> n;
+
+    vi A(n);
+
+    for(int &i : A)
+        cin >> i;
+    
+    ll even = 1, odd = 0; // 0 is even
+    ll pos = 0, curr = 0;
+
+    for(int &i : A){
+        if(i < 0)
+            curr++;
+        
+        if(curr & 1){
+            pos += odd;
+            odd++;
+        }
+        else{
+            pos += even;
+            even++;
+        }
+    }
+
+    ll neg = 1ll*n*(n + 1)/2 - pos;
+
+
+    cout << neg << " " << pos << nline;
+
+    
 }
 int main(){
-    ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
-    }
+    fastio;
+    solve();
+    // int T;
+    // cin >> T;
+    // while(T--){
+    //     solve();
+    // }
 
     return 0;
 }
