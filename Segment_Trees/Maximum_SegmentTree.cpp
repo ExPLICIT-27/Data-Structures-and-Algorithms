@@ -1,14 +1,14 @@
 #include <bits/stdc++.h>
 #define ll long long
 using namespace std;
-// Maximum seg tree
+// Maximum SGT tree
 // A - input array, S - Segment tree
-// excellent vid - Striver's Seg tree vid
+// excellent vid - Striver's SGT tree vid
 // for sum just change max() to + ez
-class SEG{
+class SGT{
     public:
         vector<ll> A, S, L; // L is the Lazy tree for lazy propagation 
-        SEG(vector<ll> &arr, int n){
+        SGT(vector<ll> &arr, int n){
             A = arr;
             S.resize(4*n + 1);
             L.resize(4*n + 1, 0);
@@ -133,7 +133,7 @@ int main(){
 
     for(ll &i : A)
         cin >> i;
-    SEG S = SEG(A, n);
+    SGT S = SGT(A, n);
     S.Build(0, 0, n - 1);
 
     int q;

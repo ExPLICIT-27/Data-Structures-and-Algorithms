@@ -70,7 +70,6 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-// binary exponentiation
 ll binexp(ll a, ll b, ll M){
     ll ans = 1;
 
@@ -83,17 +82,70 @@ ll binexp(ll a, ll b, ll M){
 
     return ans;
 }
-
+ll countWays(ll target, int i, int n, vector<vll> &dp){
+    if(target == 0)
+        return 1;
+    if(target < 0)
+        return 0;
+    if(i > n)
+        return 0;
+    
+    if(dp[i][target] != -1)
+        return dp[i][target];
+    
+    return dp[i][target] = (countWays(target, i + 1, n, dp) + countWays(target - i, i + 1, n, dp))%MOD;
+}
 void solve(){
+    int n; cin >> n;
 
+    ll total = 1ll*n*(n + 1)/2;
+
+    if(total & 1){
+        cout << 0 << nline;
+        return;
+    }
+    // vector<vll> dp(n + 1, vll(total/2 + 1, 0));
+    // ll ans = countWays(total/2, 1, n, dp);
+    
+    // we cannot just do ans/2, because we performed modular addition inside,
+    // we need to do ans*inverse(2) modulo MOD
+    // since 1e9 + 7 is prime, fermats theorem states 2^-1 mod (MOD) = pow(2, MOD - 2)%MOD (just do binary exp)
+
+    // cout << ans*binexp(2, MOD - 2, MOD)%MOD << nline;
+
+    // for(int i = 0; i <= n; i++)
+    //     dp[i][0] = 1;
+
+    ll target = total/2;
+    // for(int i = 1; i <= n; i++){
+    //     for(int j = 1; j <= target; j++){
+    //         if(j - i >= 0)
+    //             dp[i][j] = (dp[i][j] + dp[i - 1][j - i])%MOD;
+    //         dp[i][j] = (dp[i][j] + dp[i - 1][j])%MOD;
+    //     }
+    // }
+
+    // cout << dp[n][target]*binexp(2, MOD - 2, MOD)%MOD << nline;
+
+    vll dp(target + 1, 0);
+    dp[0] = 1;
+
+    for(int i = 1; i <= n; i++){
+        for(int j = target; j >= i; j--){
+            dp[j] = (dp[j] + dp[j - i])%MOD;
+        }
+    }
+
+    cout << dp[target]*binexp(2, MOD - 2, MOD)%MOD << nline;
 }
 int main(){
     ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
-    }
+    solve();
+    // int T;
+    // cin >> T;
+    // while(T--){
+    //     solve();
+    // }
 
     return 0;
 }

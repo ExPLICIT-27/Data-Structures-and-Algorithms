@@ -85,15 +85,38 @@ ll binexp(ll a, ll b, ll M){
 }
 
 void solve(){
+    int n; cin >> n;
 
+    vi A(n);
+
+    for(int &i : A)
+        cin >> i;
+    vi dp;
+
+    dp.pb(A[0]);
+    int ans = 1;
+
+    for(int i = 1; i < n; i++){
+        if(A[i] > dp.back()){
+            ans++;
+            dp.pb(A[i]);
+        }
+        else{
+            auto lb = lower_bound(all(dp), A[i]);
+            dp[lb - dp.begin()] = A[i];
+        } 
+    }
+
+    cout << ans << nline;
 }
 int main(){
     ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
-    }
+    solve();
+    // int T;
+    // cin >> T;
+    // while(T--){
+    //     solve();
+    // }
 
     return 0;
 }
