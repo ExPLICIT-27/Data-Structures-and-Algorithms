@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -81,15 +85,22 @@ ll binexp(ll a, ll b, ll M){
 }
 
 void solve(){
+    int n, m; cin >> n >> m;
 
+    if((n + 1)/2 >= m){
+        cout << "Yes\n";
+    }
+    else
+        cout << "No\n";
 }
 int main(){
     ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
-    }
+    solve();
+    // int T;
+    // cin >> T;
+    // while(T--){
+    //     solve();
+    // }
 
     return 0;
 }

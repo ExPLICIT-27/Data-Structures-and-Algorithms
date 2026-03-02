@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -80,16 +84,20 @@ ll binexp(ll a, ll b, ll M){
     return ans;
 }
 
-void solve(){
+class Solution {
+public:
+    int sumOfNumbers(int l, int r, int k) {
+        ll diff = (r - l + 1);
+        ll ans = 0;
+        ll mul = binexp(diff, k - 1, MOD);
+        ll num = (binexp(10ll, k, MOD) - 1 + MOD)%MOD;
+        ll den = binexp(9ll, MOD - 2, MOD);
+        ll gpsum = (num*den)%MOD;
+        for(ll i = l; i <= r; i++){
+            ans = (ans + ((i*mul)%MOD)*(gpsum)%MOD)%MOD;
+        }
 
-}
-int main(){
-    ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
+        return ans;
+        
     }
-
-    return 0;
-}
+};

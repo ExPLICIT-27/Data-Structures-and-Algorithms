@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -79,17 +83,28 @@ ll binexp(ll a, ll b, ll M){
 
     return ans;
 }
+class Solution {
+public:
+    vector<int> minDistinctFreqPair(vector<int>& nums) {
+        map<int, int> mp;
 
-void solve(){
+        for(int i : nums)
+            mp[i]++;
+        sort(all(nums));
+        int n = sz(nums);
+        vector<pii> P;
+        for(int i = 0; i < n; i++){
+            int curr = nums[i];
+            for(int j = i + 1; j < n; j++){
+                if(curr < nums[j] && mp[nums[j]] != mp[curr]){
+                    P.pb({curr, nums[j]});
+                    break;
+                }
+            }
+        }
 
-}
-int main(){
-    ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
+        if(P.empty())
+            return {-1, -1};
+        return {P[0].ff, P[0].ss};
     }
-
-    return 0;
-}
+};

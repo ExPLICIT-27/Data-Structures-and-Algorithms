@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -80,7 +84,71 @@ ll binexp(ll a, ll b, ll M){
     return ans;
 }
 
+bool chck(int n){
+    if(n <= 2)
+        return true;
+
+    for(int i = 2; i*i <= n; i++){
+        if(n%i == 0)
+            return false;
+    }
+
+    return true;
+}
+bool isSorted(vi &A){
+    for(int i = 1; i < sz(A); i++){
+        if(A[i] < A[i - 1])
+            return false;
+    }
+
+    return true;
+}
 void solve(){
+    int n; cin >> n;
+
+    vi A(n);
+
+    for(int &i : A)
+        cin >> i;
+    // if 2 diff prime factors for any number alice will win
+    if(isSorted(A)){
+        cout << "Bob\n";
+        return;
+    }
+
+    
+    int prev = -1;
+    for(int i : A){
+        if(chck(i)){
+            if(prev > i){
+                cout << "Alice\n";
+                return;
+            }
+            else{
+                prev = i;
+                continue;
+            }
+        }
+        int tmp = i;
+        vector<int> factors;
+        for(int j = 2; j*j <= i; j++){
+            if(i%j == 0){
+                factors.pb(j);
+                while(i%j == 0)
+                    i /= j;
+            }
+        }
+        if(i > 1)
+            factors.pb(i);
+        if(sz(factors) >= 2 || factors[0] < prev){
+            cout << "Alice\n";
+            return;
+        }
+        prev = factors[0];
+    }
+
+    cout << "Bob\n";
+
 
 }
 int main(){

@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -79,17 +83,32 @@ ll binexp(ll a, ll b, ll M){
 
     return ans;
 }
-
-void solve(){
-
-}
-int main(){
-    ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
+class Solution {
+public:
+    int n, m;
+    bool willBeSet(vector<vi> &G, int b, int ans){
+        for(int i = 0; i < n; i++){
+            bool ok = false;
+            for(int j = 0; j < m; j++){
+                if((ans >> b) == (((G[i][j] | ans) >> b))){ // check if i can obtain an extended prefix of ans with the b-th bit unset
+                    ok = true;
+                    break;
+                }
+            }
+            if(!ok)
+                return true;
+        }
+        return false;
     }
+    int minimumOR(vector<vector<int>>& grid) {
+        int ans = 0;
 
-    return 0;
-}
+        n = grid.size(), m = grid[0].size();
+        for(int i = 17; i >= 0; i--){
+            if(willBeSet(grid, i, ans))
+                ans |= (1 << i);
+        }
+
+        return ans;
+    }
+};

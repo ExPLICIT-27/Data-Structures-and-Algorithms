@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -80,8 +84,31 @@ ll binexp(ll a, ll b, ll M){
     return ans;
 }
 
-void solve(){
 
+void solve(){
+    ll n, s; cin >> n >> s;
+    
+    
+    // can i try to avoid 6 as much as possible
+    
+    int use = 1;
+    while(use*n < s)
+        use++;
+    
+    ll ans = 6*n;
+    
+    if(use != 6){
+        cout << ans << nline;
+        return;
+    }
+    int sixes = 0;
+    while((5*(n - sixes) + sixes*6) < s){
+        sixes++;
+        ans--;
+    }
+    
+    cout << ans << nline;
+    
 }
 int main(){
     ExPLICIT_27;

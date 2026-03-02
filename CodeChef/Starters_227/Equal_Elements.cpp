@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -79,9 +83,36 @@ ll binexp(ll a, ll b, ll M){
 
     return ans;
 }
-
+int helper(int i, vector<vi> &mp, vi &A, vector<int> &dp){
+    if(i == sz(A))
+        return 0;
+        
+    if(dp[i] != -1)
+        return dp[i];
+        
+    auto ub = upper_bound(all(mp[A[i]]), i);
+    
+    if(ub == mp[A[i]].end())
+        return helper(i + 1, mp, A, dp);
+    return dp[i] = max(1 + helper(*ub + 1, mp, A, dp), helper(i + 1, mp, A, dp));
+}
 void solve(){
-
+    int n; cin >> n;
+    
+    vi A(n);
+    
+    for(int &i : A)
+        cin >> i;
+    /*
+    if curr == needed
+        1 + starting
+    */
+    vector<vi> mp(n + 1);
+    
+    for(int i = 0; i < n; i++)
+        mp[A[i]].pb(i);
+    vector<int> dp(n + 1, -1);
+    cout << helper(0, mp, A, dp)*2 << nline;
 }
 int main(){
     ExPLICIT_27;

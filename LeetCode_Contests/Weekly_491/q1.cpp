@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -80,16 +84,13 @@ ll binexp(ll a, ll b, ll M){
     return ans;
 }
 
-void solve(){
-
-}
-int main(){
-    ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
+class Solution {
+public:
+    string trimTrailingVowels(string s) {
+        string v = "aeiou";
+        uset<char> S(all(v));
+        while(!s.empty() && S.count(s.back()))
+            s.pop_back();
+        return s;
     }
-
-    return 0;
-}
+};

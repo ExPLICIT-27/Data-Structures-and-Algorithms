@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -81,15 +85,63 @@ ll binexp(ll a, ll b, ll M){
 }
 
 void solve(){
+    string S, T; cin >> S >> T;
+
+    // only through the addition and deletion of A's can i make S = T??
+    int j = 0;
+    int n = sz(S), m = sz(T);
+    int ops = 0;
+    int i = 0;
+    while(i < m){
+        if(j == n){
+            for(int k = i; k < m; k++){
+                if(T[k] != 'A'){
+                    cout << -1 << nline;
+                    return;
+                }
+                else
+                    ops++;
+            }
+            break;
+        }
+        if(S[j] != T[i]){
+            if(T[i] == 'A'){
+                ops++;
+                i++;
+            }
+            else if(S[j] == 'A'){
+                j++;
+                ops++;
+            }
+            else{
+                cout << -1 << nline;
+                return;
+            }
+        }
+        else{
+            j++, i++;
+        }
+    }
+
+    for(int k = j; k < n; k++){
+        if(S[k] != 'A'){
+            cout << -1 << nline;
+            return;
+        }
+        else
+            ops++;
+    }
+    cout << ops << nline;
 
 }
 int main(){
     ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
-    }
+    solve();
+    // int T;
+    // cin >> T;
+    // while(T--){
+    //     solve();
+    // }
 
     return 0;
 }

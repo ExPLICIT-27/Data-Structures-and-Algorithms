@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -81,6 +85,65 @@ ll binexp(ll a, ll b, ll M){
 }
 
 void solve(){
+    int n, x, y; cin >> n >> x >> y;
+
+    /*
+    for in between the portals
+    circular shift from smallest 
+    */
+    vi A(n);
+    for(int &i : A)
+        cin >> i;
+    vi middle;
+
+    for(int i = x; i < y; i++){
+        middle.pb(A[i]);
+    }
+
+    int mmin = vmin(middle);
+
+    vi midans;
+
+    int midx = 0;
+    for(int i = 0; i < sz(middle); i++){
+        if(middle[i] == mmin){
+            for(int j = i; j < sz(middle) + i; j++)
+                midans.pb(middle[j%sz(middle)]);
+            break;
+        }
+    }
+
+    int mbest = midans[0];
+    int curr = 0;
+    vi ans;
+    while(curr < x && A[curr] < mbest){
+        ans.pb(A[curr]);
+        curr++;
+    }
+    if(curr == x){
+        curr = y;
+        while(curr < n && A[curr] < mbest)
+            ans.pb(A[curr++]);
+        for(int i : midans)
+            ans.pb(i);
+
+        for(int i = curr; i < n; i++)
+            ans.pb(A[i]);
+    }
+    else{
+        for(int i : midans)
+            ans.pb(i);
+        for(int i = curr; i < x; i++)
+            ans.pb(A[i]);
+        for(int i = y; i < n; i++)
+            ans.pb(A[i]);
+    }
+
+
+    for(int i : ans)
+        cout << i << " ";
+    cout << nline;
+
 
 }
 int main(){

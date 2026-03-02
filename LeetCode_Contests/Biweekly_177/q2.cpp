@@ -1,4 +1,8 @@
 #include <bits/stdc++.h>
+
+using namespace std;
+
+#include <bits/stdc++.h>
 using namespace std;
 
 // ---------- Typedefs ----------
@@ -27,6 +31,10 @@ using namespace std;
 
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
+
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
 
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
@@ -79,17 +87,32 @@ ll binexp(ll a, ll b, ll M){
 
     return ans;
 }
+class Solution {
+public:
+    string mergeCharacters(string s, int k) {
 
-void solve(){
+        int n = sz(s);
 
-}
-int main(){
-    ExPLICIT_27;
-    int T;
-    cin >> T;
-    while(T--){
-        solve();
+        string ans = "";
+        ans += s[0];
+        map<int, int> pos;
+        pos[s[0]] = 0;
+
+        for(int i = 1; i < n; i++){
+            if(!pos.count(s[i])){
+                ans += s[i];
+                pos[s[i]] = sz(ans) - 1;
+            }
+            else{
+                if(sz(ans) - pos[s[i]] <= k)
+                    continue;
+                else{
+                    ans += s[i];
+                    pos[s[i]] = sz(ans) - 1;
+                }
+            }
+        }
+
+        return ans;
     }
-
-    return 0;
-}
+};

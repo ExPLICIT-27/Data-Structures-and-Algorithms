@@ -28,6 +28,10 @@ using namespace std;
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
 
+// ---------- Loops ----------
+#define rep(i,a,b) for (int i = (a); i < (b); i++)
+#define repd(i,a,b) for (int i = (a); i >= (b); i--)
+
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
@@ -79,8 +83,28 @@ ll binexp(ll a, ll b, ll M){
 
     return ans;
 }
-
 void solve(){
+    
+    int n, m; cin >> n >> m;
+
+
+    vector<pll> bes(n), shp(m);
+
+    for(auto &p : bes)
+        cin >> p.ff >> p.ss;
+
+    for(auto &p : shp)
+        cin >> p.ff >> p.ss;
+    
+    map<int, vll> particles;
+
+    for(auto &p : bes)
+        particles[p.ss].pb(p.ff);
+
+    for(auto &[x, y] : particles)
+        sort(all(y), greater<ll>());
+    map<int, ll> maxsum;
+
 
 }
 int main(){
