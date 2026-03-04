@@ -66,20 +66,6 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-// binary exponentiation
-ll binexp(ll a, ll b, ll M){
-    ll ans = 1;
-
-    while(b){
-        if(b & 1)
-            ans = (ans*a)%M;
-        b >>= 1;
-        a = (a * a)%M;
-    }
-
-    return ans;
-}
-
 void solve(){
 
 }
