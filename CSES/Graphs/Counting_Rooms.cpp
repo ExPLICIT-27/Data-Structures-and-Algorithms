@@ -66,13 +66,61 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
+
 void solve(){
+    int n, m; cin >> n >> m;
+
+    vector<string> G(n);
+
+
+    for(auto &s : G)
+        cin >> s;
+    
+    // find the number of connected components
+
+    auto isValid = [&](int i, int j){
+        return i >= 0 && i < n && j >= 0 && j < m;
+    };
+
+    vector<vector<bool>> vis(n, vector<bool>(m, false));
+
+    int ans = 0;
+    int dirx[] = {0, 0, -1, 1};
+    int diry[] = {1, -1, 0, 0};
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            if(G[i][j] == '.' && !vis[i][j]){
+                ans++;
+                queue<pii> Q;
+                Q.push({i, j});
+                vis[i][j] = true;
+
+                while(!Q.empty()){
+                    auto u = Q.front();
+                    Q.pop();
+
+                    for(int g = 0; g < 4; g++){
+                        int nx = u.ff + dirx[g];
+                        int ny = u.ss + diry[g];
+
+                        if(isValid(nx, ny) && !vis[nx][ny] && G[nx][ny] == '.'){
+                            vis[nx][ny] = true;
+                            Q.push({nx, ny});
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    cout << ans << nline;
 
 }
 int main(){
     ExPLICIT_27;
     int T = 1;
-    cin >> T;
+    // cin >> T;
     while(T--){
         solve();
     }

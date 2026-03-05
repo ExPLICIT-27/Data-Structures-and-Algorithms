@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 // ---------- Typedefs ----------
 #define ll long long
 #define ull unsigned long long
@@ -11,7 +11,7 @@ using namespace std;
 #define vll vector<ll>
 #define uset unordered_set
 #define umap unordered_map
-
+ 
 // ---------- Macros ----------
 #define nline '\n'
 #define pb push_back
@@ -24,19 +24,19 @@ using namespace std;
 #define vmin(a) (*min_element(all(a)))
 #define vsum(a) (accumulate(all(a), 0LL))
 #define vsumd(a) (accumulate(all(a), 0.0))
-
+ 
 // ---------- Fast IO ----------
 #define ExPLICIT_27 ios::sync_with_stdio(false); cin.tie(nullptr)
-
+ 
 // ---------- Constants ----------
 const ll MOD = 1e9+7;
 const ll INF = 1e18;
-
+ 
 // ---------- PBDS ---------- policy based data strcutures, faster sets and maps
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
-
+ 
 // Ordered Set (no duplicates)
 template<typename T>
 using ordered_set = tree<
@@ -46,7 +46,7 @@ using ordered_set = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-
+ 
 // Ordered Multiset (allows duplicates using unique IDs)
 template<typename T>
 using ordered_multiset = tree<
@@ -56,7 +56,7 @@ using ordered_multiset = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-
+ 
 // Ordered Map (key → value)
 template<typename K, typename V>
 using ordered_map = tree<
@@ -66,16 +66,65 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
-void solve(){
+ 
 
+void solve(){
+    // just check if graph is 2 colorable
+
+    int n, m; cin >> n >> m;
+
+    vector<vi> G(n);
+
+
+    for(int i = 0; i < m; i++){
+        int u, v; cin >> u >> v;
+
+        u--, v--;
+        G[u].pb(v);
+        G[v].pb(u);
+    }
+
+
+    vi color(n, -1);
+
+
+    for(int i = 0; i < n; i++){
+        if(color[i] == -1){
+            color[i] = 0;
+            queue<int> Q;
+            Q.push(i);
+
+            while(!Q.empty()){
+                int u = Q.front();
+                Q.pop();
+
+                for(int v : G[u]){
+                    if(color[v] == -1){
+                        color[v] = 1 - color[u];
+                        Q.push(v);
+                    }
+                    else{
+                        if(color[v] == color[u]){
+                            cout << "IMPOSSIBLE\n";
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    for(int i : color)
+        cout  << i + 1 << " ";
+    cout << nline;
 }
 int main(){
     ExPLICIT_27;
     int T = 1;
-    cin >> T;
+    // cin >> T;
     while(T--){
         solve();
     }
-
+ 
     return 0;
 }

@@ -66,13 +66,51 @@ using ordered_map = tree<
     rb_tree_tag,
     tree_order_statistics_node_update
 >;
+ll dp[19][11][2];
+ll helper(string &num, int i, int prev, bool tight){
+    if(i == sz(num))
+        return 1;
+    
+    if(dp[i][prev + 1][tight] != -1)
+        return dp[i][prev + 1][tight];
+    
+    int ub = tight? num[i] - '0' : 9;
+    ll ans = 0;
+    for(int dig = 0; dig <= ub; dig++){
+        if(prev == -1){
+            // leading zeros are allowed
+            if(dig == 0)
+                ans += helper(num, i + 1, -1, (tight && (dig == ub)));
+            else
+                ans += helper(num, i + 1, dig, (tight && (dig == ub)));
+        }
+        else if(prev != dig)
+            ans += helper(num, i + 1, dig, (tight && (dig == ub)));
+    }
+
+    return dp[i][prev + 1][tight] = ans;
+}
 void solve(){
+    ll A, B; cin >> A >> B;
+
+
+    string L = to_string(A - 1), R = to_string(B);
+
+    // generate valid from 0 to left, then 0 to right, and subtract both
+    memset(dp, -1, sizeof(dp));
+    ll right = helper(R, 0, -1, 1);
+
+    memset(dp, -1, sizeof(dp));
+    ll left = helper(L, 0, -1, 1);
+
+
+    cout << right - left << nline;
 
 }
 int main(){
     ExPLICIT_27;
     int T = 1;
-    cin >> T;
+    // cin >> T;
     while(T--){
         solve();
     }
