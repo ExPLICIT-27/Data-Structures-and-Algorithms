@@ -1,0 +1,8 @@
+Graph Type                    | Algorithm            | Time Complexity | When to use it
+------------------------------|----------------------|-----------------|-----------------------------------------------
+Unweighted                    | BFS                  | O(V + E)        | Every edge has equal weight (1)
+DAG (Directed Acyclic Graph)  | Topo Sort + DP       | O(V + E)        | No cycles; best for longest/shortest path in DAG
+Weighted (Non-negative)       | Dijkstra             | O(E log V)      | Standard shortest path with non-negative weights
+Weighted (Negative edges)     | Bellman-Ford         | O(V * E)        | Handles negative weights; detects negative cycles
+Weighted (Negative edges)     | SPFA                 | O(k * E) avg    | Faster Bellman-Ford in practice; bad worst-case
+All-Pairs Shortest Path       | Floyd-Warshall       | O(V^3)          | Small graphs; need distances between all pairs
