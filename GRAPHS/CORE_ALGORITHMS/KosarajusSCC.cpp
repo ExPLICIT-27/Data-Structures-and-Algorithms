@@ -61,6 +61,7 @@ class Solution {
                 res++;
                 queue<int> q;
                 q.push(u);
+                vis[u] = true;
                 while(!q.empty()){
                     int ui = q.front();
                     q.pop();
