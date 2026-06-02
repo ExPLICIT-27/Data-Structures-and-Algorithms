@@ -1,4 +1,3 @@
-// modelled from the CSES question Mail Delivery
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -7,7 +6,7 @@ using namespace std;
 
 void solve() {
     /*
-    this question directly asks us to find a eulerian circuit in a graph
+   this question directly asks us to find a eulerian circuit in a graph
 
     
     Eulerian Path : A path that visits each edge exactly once (you must choose the correct vertex as starting pos)
@@ -26,100 +25,71 @@ void solve() {
     continue the process and merge the other sub loops to get a eulerian circuit
 
     algorithm:
-    - check even degree and connectivity first
-    - create a stack which we will use for finding sub loops and temporary vertex storage
-    - as long as you can move, just move and delete the edge as you move
-    - when you cannot move, add the current vertex (exhausted vertex to the ans)
-    find an already visited vertex to which there is an edge, continue till nothing can be processed anymore
-    - print the result
+    - if there is any vertex with odd degree -> impossible
+    - start from any vertex u, keep moving till you exhaust u, add u to the path
+    - now find a node v which is part of the movement you made from u, visit all its unvisited edges and it to the tour as well
+    - this is basically finding all closed loops and adding them together in order
+    - modified dfs can be used to do this
     */
 
     int n, m; cin >> n >> m;
 
-    vector<multiset<int>> G(n);
+    vector<vector<pair<int, int>>> G(n);
+
 
     vector<int> deg(n, 0);
     for(int i = 0; i < m; i++){
         int u, v; cin >> u >> v;
         u--, v--;
 
-        G[u].insert(v);
-        G[v].insert(u);
-
+        G[u].emplace_back(v, i);
+        G[v].emplace_back(u, i);
         deg[u]++, deg[v]++;
     }
 
-    int start;
-    for(int i = 0; i < n; i++){
-        if(deg[i] & 1){
-            cout << "IMPOSSIBLE\n";
-            return;
-        }
-        if(deg[i])
-            start = i; // start from a node with an edge always
-    }
-
-    function<void(int)> conn_check;
-
-
-    vector<bool> vis(n, false);
-
-    conn_check = [&](int u) -> void {
-        vis[u] = true;
-
-        for(int v : G[u]){
-            if(!vis[v])
-                conn_check(v);
-        }
-    };
-
-    conn_check(start);
-
-    if(!vis[0]){
+    if(deg[0] == 0){
         cout << "IMPOSSIBLE\n";
         return;
     }
+
     for(int i = 0; i < n; i++){
-        if(deg[i] && !vis[i]){
-            cout << "IMPOSSIBLE\n";
+        if(deg[i] & 1){
+            cout << "IMPOSSIBLE\n"; // odd degree node
             return;
         }
     }
 
-    // degree and connectivity checks are complete
+    vector<bool> seen(m, false); // checking edges which are deleted
+    vector<int> circuit;
 
 
-    stack<int> curr_path, circuit;
+    function<void(int)> dfs;
 
-    curr_path.push(0);
+    dfs = [&](int u) -> void {
+        while(!G[u].empty()){
+            auto [v, edge] = G[u].back();
+            G[u].pop_back();
 
-    while(!curr_path.empty()){
-
-        int u = curr_path.top();
-        
-        if(!G[u].empty()){
-            int v = *G[u].begin();
-
-            // erase edges
-            G[u].erase(G[u].find(v));
-            G[v].erase(G[v].find(u));
-            
-            curr_path.push(v);
-
-            u = v;
+            if(seen[edge])
+                continue; // alr deleted edge
+            seen[edge] = true; // delete the edge
+            dfs(v);
         }
-        else{
-            circuit.push(u);
-            curr_path.pop();
-        }
+
+        circuit.push_back(u + 1); // add node to eulerian ciruit
+    };
+
+    dfs(0);
+    if(circuit.size() != m + 1){
+        cout << "IMPOSSIBLE\n"; // cant visit all edges
+        return;
     }
 
-    while(!circuit.empty()){
-        cout << circuit.top() + 1 << " ";
-        circuit.pop();
-    }
 
+    for(int i : circuit)
+        cout << i << " ";
     cout << nline;
+
 }
 
 int main() {
