@@ -1,37 +1,58 @@
+/*
+for detailed explanation of the algorithm in itself 
+refer GRAPHS/CORE_ALGORITHMS/EdmondKarps.cpp
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
 #define ll long long
 #define nline '\n'
 
+struct Edge{
 
-vector<vector<ll>> G;
-vector<int> parent;
+    int to, rev;
+    ll cap;
 
-int V;
+    Edge(){};
+
+    Edge(int to, int rev, ll cap) : to(to), rev(rev), cap(cap) {}
+};
+
+
+int N, M;
+
+vector<vector<Edge>> G;
+vector<int> par_n, par_e; // parents of nodes, edge parent (how to reach the parent of the node)
+
 
 ll bfs(){
-    fill(parent.begin(), parent.end(), -1);
-    parent[1] = 1;
+    fill(par_e.begin(), par_e.end(), -1);
+    fill(par_n.begin(), par_n.end(), -1);
 
     queue<pair<int, ll>> q;
 
     q.push({1, LLONG_MAX});
 
     while(!q.empty()){
+        auto [u, cflow] = q.front(); q.pop();
 
-        auto [u, flow] = q.front();
-        q.pop();
+        int sz = G[u].size();
 
-        for(int v = 1; v <= V; v++){
-            if(parent[v] == -1 && G[u][v]){
-                ll nflow = min(G[u][v], flow);
-                
-                parent[v] = u;
-                if(v == V)
+        for(int i = 0; i < sz; i++){
+            auto &e = G[u][i];
+
+            if(par_n[e.to] == -1 && e.cap){
+                ll nflow = min(cflow, e.cap);
+
+                par_n[e.to] = u;
+                par_e[e.to] = i;
+
+
+                if(e.to == N)   
                     return nflow;
-                
-                q.push({v, nflow});
+
+                q.push({e.to, nflow});
             }
         }
     }
@@ -39,44 +60,41 @@ ll bfs(){
     return 0;
 }
 void solve() {
-    int n, m; cin >> n >> m;
-    V = n;
-    /*
-    NAHHHHHHHHHHHHHHHHHHHHHHHH
-    data can split up and travel along all paths
+    cin >> N >> M;
 
-    yup speed is a really stupid word here
-    its BANDWIDTH which is the AMOUNT of data which can be sent in a FIXED amount of time
-
-    the way to go here is using Edmond karps -> max flow from source to sink, src, sink being 1 and N
-    */
+    G.assign(N + 1, vector<Edge>());
+    par_n.resize(N + 1), par_e.resize(N + 1);
 
 
-    G.assign(V + 1, vector<ll>(V + 1, 0));
-    parent.resize(V + 1);
-    for(int i = 0; i < m; i++){
-        int u, v, w; cin >> u >> v >> w;
+    for(int i = 0; i < M; i++){
+        int u, v; cin >> u >> v;
 
-        G[u][v] += w; 
+        ll cap; cin >> cap;
+
+        G[u].push_back({v, (int)G[v].size(), cap});
+        G[v].push_back({u, (int)G[u].size() - 1, 0});
     }
 
-    ll maxFlow = 0; 
-    ll currFlow;
+    ll maxFlow = 0, currFlow;
+
 
     while(currFlow = bfs()){
         maxFlow += currFlow;
 
-        int curr = V;
+        int curr = N;
 
         while(curr != 1){
-            G[parent[curr]][curr] -= currFlow;
-            G[curr][parent[curr]] += currFlow;
+            G[par_n[curr]][par_e[curr]].cap -= currFlow;
+            int rev = G[par_n[curr]][par_e[curr]].rev;
 
-            curr = parent[curr];
+            G[curr][rev].cap += currFlow;
+
+            curr = par_n[curr];
         }
     }
 
-    cout << maxFlow;
+    cout << maxFlow << endl;
+
 }
 
 int main() {
